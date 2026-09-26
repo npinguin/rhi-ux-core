@@ -4,7 +4,7 @@ const src=fs.readFileSync("dist/rhi-ux-core.js","utf8");
 const context={String,Object,Array};
 vm.createContext(context);
 vm.runInContext(src,context);
-const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxDomainShell"];
+const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell"];
 for(const name of required){
   if(typeof context[name]!=="function") throw new Error(`missing public primitive: ${name}`);
 }
@@ -24,3 +24,10 @@ const navShell=context.rhiUxDomainShell({domain:"TEST",modules:[{id:"main",label
 if(!navShell.includes('data-nav="/overview"')) throw new Error("shared shell must expose one canonical data-nav navigation attribute");
 if(navShell.includes("data-target=")) throw new Error("legacy Core data-target navigation attribute is forbidden");
 console.log("PASS shared navigation attribute contract");
+
+const brand=context.rhiUxCompanyBrand();
+if(!brand.includes("rhiUxCompanyLogo") || !brand.includes("Robotix.be") || !brand.includes("DomotiX · Network · Security")) throw new Error("canonical company brand primitive failed");
+if(src.includes("__RHI_UX_COMPANY_LOGO_INLINE__")) throw new Error("company logo placeholder leaked into built Core");
+const brandAsset=fs.readFileSync("dist/assets/branding/company-logo.svg","utf8");
+if(!brandAsset.includes("Robotix.be") || !brandAsset.includes("#0B4C86") || !brandAsset.includes("#5B95C8")) throw new Error("canonical company logo asset drifted");
+console.log("PASS canonical company branding contract");
