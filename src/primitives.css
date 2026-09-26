@@ -24,6 +24,12 @@
 .rhiUxCompanyLogo{display:block;width:min(100%,250px);max-height:116px;line-height:0;overflow:hidden}
 .rhiUxCompanyLogo svg{display:block;width:100%;height:auto;max-height:116px;object-fit:contain;object-position:center}
 
+/* Canonical page stack: visual order is invariant across domains. */
+.rhiUxPageStack{display:flex;flex-direction:column}
+.rhiUxPageStack>.rhiUxPageHero{order:1}
+.rhiUxPageStack>.rhiUxStatusGrid{order:2}
+.rhiUxPageStack>.rhiUxQuickActionBar{order:3}
+
 /* Canonical page hero: image is one background layer, never a split side panel. */
 .rhiUxPageHero{
   position:relative;display:block;height:188px;min-height:188px;overflow:hidden;
