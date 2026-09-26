@@ -7,7 +7,7 @@ vm.createContext(context);
 vm.runInContext(src,context);
 const coreVersion=vm.runInContext("RHI_UX_CORE_VERSION",context);
 if(coreVersion!==pkg.version) throw new Error(`Core version projection drift: ${coreVersion} != ${pkg.version}`);
-const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell"];
+const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar"];
 for(const name of required){
   if(typeof context[name]!=="function") throw new Error(`missing public primitive: ${name}`);
 }
@@ -15,7 +15,7 @@ if(context.rhiUxDisplay(null)!=="—") throw new Error("null display semantics d
 if(context.rhiUxDisplay(0)!=="0") throw new Error("zero must remain zero");
 if(!context.rhiUxState({state:"unavailable",title:"No data"}).includes('data-state="unavailable"')) throw new Error("unavailable state rendering failed");
 const css=fs.readFileSync("dist/rhi-ux-core.css","utf8");
-for(const token of ["--rhi-color-primary","--rhi-space-1","--rhi-radius-lg","--rhi-page-max"]){
+for(const token of ["--rhi-color-primary","--rhi-space-1","--rhi-radius-lg","--rhi-page-max","--rhi-font-family","--rhi-font-display"]){
   if(!css.includes(token)) throw new Error(`missing token: ${token}`);
 }
 console.log("PASS RHI UX Core public primitive contract");
@@ -35,3 +35,10 @@ if(src.includes("http://www.w3.org/2000/svg")) throw new Error("inline company b
 const brandAsset=fs.readFileSync("dist/assets/branding/company-logo.svg","utf8");
 if(!brandAsset.includes("Robotix.be") || !brandAsset.includes("#0B4C86") || !brandAsset.includes("#5B95C8")) throw new Error("canonical company logo asset drifted");
 console.log("PASS canonical company branding contract");
+
+if(!css.includes(".rhiUxPageHeroArt{position:absolute")) throw new Error("hero image must be a background layer");
+if(!css.includes(".rhiUxQuickAction.primary")) throw new Error("canonical quick-action primary state missing");
+if(!css.includes(".rhiUxDomainBody")) throw new Error("canonical body grammar missing");
+const actions=context.rhiUxQuickActionBar({actions:[{label:"Overview",target:"/overview"},{label:"Details",target:"/details"}]});
+if(!actions.includes("rhiUxQuickAction primary") || !actions.includes('data-nav="/overview"')) throw new Error("canonical quick action bar failed");
+console.log("PASS unified hero/status/actions/body contract");

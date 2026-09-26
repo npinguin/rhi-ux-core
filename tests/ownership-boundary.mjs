@@ -15,3 +15,7 @@ if(bad.length) throw new Error("domain/runtime ownership leaked into UX Core: "+
 const css=fs.readFileSync("src/primitives.css","utf8");
 if(/--hi-/.test(css)) throw new Error("legacy --hi-* token namespace is forbidden; use --rhi-*");
 console.log("PASS RHI UX Core ownership boundary");
+
+const tokenCss=fs.readFileSync("src/tokens.css","utf8");
+if(!tokenCss.includes("--rhi-font-family:")) throw new Error("Core must own canonical font family");
+if(/font-family\s*:\s*Inter/i.test(tokenCss)) throw new Error("Core must use Home Assistant font authority with safe fallback");
