@@ -1,0 +1,15 @@
+import fs from "node:fs";
+import crypto from "node:crypto";
+const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
+const js=fs.readFileSync("src/core.js","utf8");
+const css=[fs.readFileSync("src/tokens.css","utf8"),fs.readFileSync("src/primitives.css","utf8")].join("\n");
+fs.rmSync("dist",{recursive:true,force:true});
+fs.mkdirSync("dist",{recursive:true});
+const builtJs=`/* RHI UX Core ${pkg.version} */\n${js.trim()}\n`;
+const builtCss=`/* RHI UX Core ${pkg.version} */\n${css.trim()}\n`;
+fs.writeFileSync("dist/rhi-ux-core.js",builtJs);
+fs.writeFileSync("dist/rhi-ux-core.css",builtCss);
+const sha=v=>crypto.createHash("sha256").update(v).digest("hex");
+const manifest={schema_version:1,product:"rhi-ux-core",version:pkg.version,runtime_dependency:false,artifacts:{"rhi-ux-core.js":sha(builtJs),"rhi-ux-core.css":sha(builtCss)}};
+fs.writeFileSync("dist/PACKAGE_MANIFEST.json",JSON.stringify(manifest,null,2)+"\n");
+console.log(`Built RHI UX Core ${pkg.version}`);
