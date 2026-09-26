@@ -42,3 +42,7 @@ if(!css.includes(".rhiUxDomainBody")) throw new Error("canonical body grammar mi
 const actions=context.rhiUxQuickActionBar({actions:[{label:"Overview",target:"/overview"},{label:"Details",target:"/details"}]});
 if(!actions.includes("rhiUxQuickAction primary") || !actions.includes('data-nav="/overview"')) throw new Error("canonical quick action bar failed");
 console.log("PASS unified hero/status/actions/body contract");
+
+if(!css.includes(".rhiUxPageStack>.rhiUxPageHero{order:1}")) throw new Error("page hero order invariant missing");
+if(!css.includes(".rhiUxPageStack>.rhiUxStatusGrid{order:2}")) throw new Error("page status order invariant missing");
+if(!css.includes(".rhiUxPageStack>.rhiUxQuickActionBar{order:3}")) throw new Error("page quick-action order invariant missing");
