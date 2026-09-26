@@ -28,6 +28,7 @@ console.log("PASS shared navigation attribute contract");
 const brand=context.rhiUxCompanyBrand();
 if(!brand.includes("rhiUxCompanyLogo") || !brand.includes("Robotix.be") || !brand.includes("DomotiX · Network · Security")) throw new Error("canonical company brand primitive failed");
 if(src.includes("__RHI_UX_COMPANY_LOGO_INLINE__")) throw new Error("company logo placeholder leaked into built Core");
+if(src.includes("http://www.w3.org/2000/svg")) throw new Error("inline company brand must not leak SVG namespace URL into runtime JS");
 const brandAsset=fs.readFileSync("dist/assets/branding/company-logo.svg","utf8");
 if(!brandAsset.includes("Robotix.be") || !brandAsset.includes("#0B4C86") || !brandAsset.includes("#5B95C8")) throw new Error("canonical company logo asset drifted");
 console.log("PASS canonical company branding contract");
