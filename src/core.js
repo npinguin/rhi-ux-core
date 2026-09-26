@@ -1,6 +1,6 @@
-// RHI UX Core 1.3.1 — build-time presentation primitives only.
+// RHI UX Core 1.4.0 — build-time presentation primitives only.
 // No domain semantics or Home Assistant contract/entity knowledge belongs here.
-const RHI_UX_CORE_VERSION = "1.3.1";
+const RHI_UX_CORE_VERSION = "1.4.0";
 const RHI_UX_COMPANY_LOGO_SVG = "__RHI_UX_COMPANY_LOGO_INLINE__";
 
 function rhiUxEscape(value) {
@@ -14,7 +14,7 @@ function rhiUxDisplay(value, fallback = "—") {
 }
 
 function rhiUxStatusItem({ icon = "•", label = "", value = "—", detail = "" } = {}) {
-  return `<div class="rhiUxStatusItem"><span class="rhiUxStatusIcon">${rhiUxEscape(icon)}</span><div class="rhiUxStatusCopy"><small>${rhiUxEscape(label)}</small><b>${rhiUxEscape(rhiUxDisplay(value))}</b>${detail ? `<em>${rhiUxEscape(detail)}</em>` : ""}</div></div>`;
+  const iconMarkup = /^mdi:/.test(String(icon || "")) ? `<ha-icon icon="${rhiUxEscape(icon)}"></ha-icon>` : rhiUxEscape(icon);\n  return `<div class="rhiUxStatusItem"><span class="rhiUxStatusIcon">${iconMarkup}</span><div class="rhiUxStatusCopy"><small>${rhiUxEscape(label)}</small><b>${rhiUxEscape(rhiUxDisplay(value))}</b>${detail ? `<em>${rhiUxEscape(detail)}</em>` : ""}</div></div>`;
 }
 
 function rhiUxStatusGrid(items = []) {
@@ -52,4 +52,9 @@ function rhiUxDomainShell({ product = "Home Intelligence", domain = "", modules 
     return `<button type="button" class="rhiUxDomainTab${active ? " active" : ""}" data-rhi-item="${rhiUxEscape(row.id || "")}"${row.target ? ` data-nav="${rhiUxEscape(row.target)}"` : ""}><span>${rhiUxEscape(row.label || row.id || "")}</span></button>`;
   }).join("");
   return `<header class="rhiUxDomainShell"><div class="rhiUxProductArea"><div class="rhiUxDomainShellTop"><div class="rhiUxDomainIdentity"><span>${rhiUxEscape(product)}</span><strong>${rhiUxEscape(domain)}</strong></div><nav class="rhiUxModuleTabs" aria-label="Modules">${moduleButtons}</nav></div><div class="rhiUxDomainShellBottom"><nav class="rhiUxDomainTabs" aria-label="${rhiUxEscape(selected.label || domain || "Domain")} navigation">${itemButtons}</nav></div></div>${brandHtml ? `<div class="rhiUxCompanyBrand">${brandHtml}</div>` : ""}</header>`;
+}
+
+
+function rhiUxQuickActionBar({ label = "Quick actions", actions = [] } = {}) {
+  return `<section class="rhiUxQuickActionBar" aria-label="${rhiUxEscape(label)}"><small>${rhiUxEscape(label)}</small><div class="rhiUxQuickActions">${actions.map((action,index) => `<button type="button" class="rhiUxQuickAction${action.primary || index === 0 ? " primary" : ""}"${action.target ? ` data-nav="${rhiUxEscape(action.target)}"` : ""}${action.disabled ? " disabled" : ""}>${action.icon ? `<ha-icon icon="${rhiUxEscape(action.icon)}"></ha-icon>` : ""}<span>${rhiUxEscape(action.label || "Open")}</span></button>`).join("")}</div></section>`;
 }
