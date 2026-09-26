@@ -1,0 +1,25 @@
+{
+  "name": "@robotix/rhi-ux-core",
+  "version": "1.0.0",
+  "description": "Shared build-time UX foundation for Robotix Home Intelligence domain frontends",
+  "license": "GPL-3.0-only",
+  "private": false,
+  "files": [
+    "src",
+    "dist",
+    "docs"
+  ],
+  "scripts": {
+    "clean": "node tools/clean.mjs",
+    "build": "node tools/build.mjs",
+    "check:syntax": "node --check dist/rhi-ux-core.js",
+    "test:contract": "node tests/core-contract.mjs",
+    "test:ownership": "node tests/ownership-boundary.mjs",
+    "validate": "npm run build && npm run check:syntax && npm run test:contract && npm run test:ownership",
+    "test": "npm run validate",
+    "preflight": "npm run validate"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
