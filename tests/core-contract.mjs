@@ -4,7 +4,7 @@ const src=fs.readFileSync("dist/rhi-ux-core.js","utf8");
 const context={String,Object,Array};
 vm.createContext(context);
 vm.runInContext(src,context);
-const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter"];
+const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxDomainShell"];
 for(const name of required){
   if(typeof context[name]!=="function") throw new Error(`missing public primitive: ${name}`);
 }
@@ -16,3 +16,6 @@ for(const token of ["--rhi-color-primary","--rhi-space-1","--rhi-radius-lg","--r
   if(!css.includes(token)) throw new Error(`missing token: ${token}`);
 }
 console.log("PASS RHI UX Core public primitive contract");
+
+const shell=context.rhiUxDomainShell({domain:"TEST",modules:[{id:"main",label:"Main",items:[{id:"overview",label:"Overview"}]}],activeModule:"main",activeItem:"overview"});
+if(!shell.includes("rhiUxDomainShell") || !shell.includes("rhiUxDomainTab active")) throw new Error("domain shell primitive failed");

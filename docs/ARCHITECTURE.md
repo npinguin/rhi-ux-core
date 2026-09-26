@@ -26,6 +26,7 @@ RHI UX Core is the shared **presentation foundation** for RHI domain frontends. 
 
 ## Public v1 primitives
 
+- rhiUxDomainShell
 - rhiUxPageHero
 - rhiUxStatusGrid / rhiUxStatusItem
 - rhiUxState
