@@ -34,3 +34,8 @@ RHI UX Core is the shared **presentation foundation** for RHI domain frontends. 
 - rhiUxTechnicalFooter
 - rhiUxEscape / rhiUxDisplay
 - shared tokens and responsive component styles
+
+
+## Navigation contract
+
+Shared shell navigation uses one neutral DOM attribute: `data-nav`. Domain routers may interpret the target path, but domain packages must not fork the shell markup solely to introduce a different navigation attribute.
