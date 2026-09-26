@@ -1,6 +1,7 @@
-// RHI UX Core 1.2.0 — build-time presentation primitives only.
+// RHI UX Core 1.3.0 — build-time presentation primitives only.
 // No domain semantics or Home Assistant contract/entity knowledge belongs here.
-const RHI_UX_CORE_VERSION = "1.2.0";
+const RHI_UX_CORE_VERSION = "1.3.0";
+const RHI_UX_COMPANY_LOGO_SVG = "__RHI_UX_COMPANY_LOGO_INLINE__";
 
 function rhiUxEscape(value) {
   return String(value ?? "").replace(/[&<>"']/g, ch => ({
@@ -36,7 +37,11 @@ function rhiUxTechnicalFooter({ product = "", uxVersion = "", backendVersion = "
   return `<footer class="rhiUxTechnicalFooter"><span>${rhiUxEscape(product)} UX ${rhiUxEscape(uxVersion)}</span><span>Backend ${rhiUxEscape(rhiUxDisplay(backendVersion,"Unknown"))}</span>${issue ? `<span data-severity="${rhiUxEscape(severity)}">${rhiUxEscape(issue)}</span>` : ""}</footer>`;
 }
 
-function rhiUxDomainShell({ product = "Home Intelligence", domain = "", modules = [], activeModule = "", activeItem = "", brandHtml = "" } = {}) {
+function rhiUxCompanyBrand({ ariaLabel = "Robotix.be — DomotiX · Network · Security" } = {}) {
+  return `<span class="rhiUxCompanyLogo" role="img" aria-label="${rhiUxEscape(ariaLabel)}">${RHI_UX_COMPANY_LOGO_SVG}</span>`;
+}
+
+function rhiUxDomainShell({ product = "Home Intelligence", domain = "", modules = [], activeModule = "", activeItem = "", brandHtml = rhiUxCompanyBrand() } = {}) {
   const selected = modules.find(row => String(row.id || "") === String(activeModule || "")) || modules[0] || { items:[] };
   const moduleButtons = modules.map(row => {
     const active = String(row.id || "") === String(selected.id || "");
