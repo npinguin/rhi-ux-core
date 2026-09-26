@@ -23,3 +23,8 @@ Do not reference `/hacsfiles/rhi-ux-core/...` at runtime.
 5. Run the domain's own preflight plus visual/runtime qualification.
 
 A migration is not complete while both local and Core implementations remain active.
+
+
+## Navigation
+
+`rhiUxDomainShell()` emits `data-nav` for module and item targets. Consumers should attach their domain router to this attribute rather than rewriting shared shell markup.
