@@ -22,7 +22,6 @@ jobs:
         with:
           node-version: '24'
           cache: npm
-      - run: npm install --package-lock-only --ignore-scripts
       - run: npm ci
       - name: Local-equivalent preflight
         run: npm run preflight
