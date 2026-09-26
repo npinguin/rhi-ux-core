@@ -5,7 +5,7 @@ const src=fs.readFileSync("dist/rhi-ux-core.js","utf8");
 const context={String,Object,Array};
 vm.createContext(context);
 vm.runInContext(src,context);
-if(context.RHI_UX_CORE_VERSION!==pkg.version) throw new Error(`Core version projection drift: ${context.RHI_UX_CORE_VERSION} != ${pkg.version}`);
+const coreVersion=vm.runInContext("RHI_UX_CORE_VERSION",context);\nif(coreVersion!==pkg.version) throw new Error(`Core version projection drift: ${coreVersion} != ${pkg.version}`);
 const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell"];
 for(const name of required){
   if(typeof context[name]!=="function") throw new Error(`missing public primitive: ${name}`);
