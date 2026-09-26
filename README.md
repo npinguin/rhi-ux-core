@@ -22,6 +22,7 @@ Consumers bundle the selected RHI UX Core version into their own immutable UX ar
 
 ## v1 scope
 
+- canonical Robotix.be company branding and logo asset
 - design tokens
 - responsive breakpoints
 - shared page/shell geometry
@@ -36,7 +37,7 @@ Consumers bundle the selected RHI UX Core version into their own immutable UX ar
 
 ## Ownership
 
-**Core owns how shared UI looks and behaves as UI.**
+**Core owns how shared UI looks and behaves as UI, including canonical company branding.**
 
 **Domain UX owns what domain information means.**
 
@@ -44,4 +45,4 @@ A screen must not use RHI UX Core to infer domain state. Domain-specific semanti
 
 ## Consumer rule
 
-A consuming package pins a Core version during development/build and includes the relevant Core source in its own built artifact. Energy and Mobility may move between Core versions independently.
+A consuming package pins a Core version during development/build and includes the relevant Core source in its own built artifact. The canonical Robotix company logo is sourced only from Core; domain repositories must not maintain a second branding authority. Energy and Mobility may move between Core versions independently.
