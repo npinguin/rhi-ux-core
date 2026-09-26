@@ -20,7 +20,7 @@ console.log("PASS RHI UX Core public primitive contract");
 const shell=context.rhiUxDomainShell({domain:"TEST",modules:[{id:"main",label:"Main",items:[{id:"overview",label:"Overview"}]}],activeModule:"main",activeItem:"overview"});
 if(!shell.includes("rhiUxDomainShell") || !shell.includes("rhiUxDomainTab active")) throw new Error("domain shell primitive failed");
 
-const shell=context.rhiUxDomainShell({domain:"TEST",modules:[{id:"main",label:"Main",target:"/overview",items:[{id:"overview",label:"Overview",target:"/overview"}]}],activeModule:"main",activeItem:"overview"});
-if(!shell.includes('data-nav="/overview"')) throw new Error("shared shell must expose one canonical data-nav navigation attribute");
-if(shell.includes("data-target=")) throw new Error("legacy Core data-target navigation attribute is forbidden");
+const navShell=context.rhiUxDomainShell({domain:"TEST",modules:[{id:"main",label:"Main",target:"/overview",items:[{id:"overview",label:"Overview",target:"/overview"}]}],activeModule:"main",activeItem:"overview"});
+if(!navShell.includes('data-nav="/overview"')) throw new Error("shared shell must expose one canonical data-nav navigation attribute");
+if(navShell.includes("data-target=")) throw new Error("legacy Core data-target navigation attribute is forbidden");
 console.log("PASS shared navigation attribute contract");
