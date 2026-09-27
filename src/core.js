@@ -1,6 +1,6 @@
 // RHI UX Core 1.4.1 — build-time presentation primitives only.
 // No domain semantics or Home Assistant contract/entity knowledge belongs here.
-const RHI_UX_CORE_VERSION = "1.5.0";
+const RHI_UX_CORE_VERSION = "1.5.1";
 const RHI_UX_COMPANY_LOGO_SVG = "__RHI_UX_COMPANY_LOGO_INLINE__";
 
 function rhiUxEscape(value) {
@@ -74,4 +74,43 @@ function rhiUxContextBar({ label = "View", controls = [], controlsId = "" } = {}
   }).join("");
   const idAttr = controlsId ? ` aria-controls="${rhiUxEscape(controlsId)}"` : "";
   return `<section class="rhiUxContextBar" aria-label="${rhiUxEscape(label || "View controls")}"${idAttr}>${labelled}<div class="rhiUxContextControls">${body}</div></section>`;
+}
+
+
+const RHI_UX_NAVIGATION_STORAGE_KEY = "rhi.navigation.registry.v1";
+
+function rhiUxReadNavigationRegistry(storage = globalThis?.localStorage) {
+  try {
+    const raw = storage?.getItem?.(RHI_UX_NAVIGATION_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+  } catch (_) {
+    return {};
+  }
+}
+
+function rhiUxRegisterDomainNavigation({ domain = "", assetDetailTemplate = "" } = {}, storage = globalThis?.localStorage) {
+  const key = String(domain || "").trim();
+  const template = String(assetDetailTemplate || "").trim();
+  if (!/^[a-z0-9][a-z0-9_-]*$/.test(key)) return false;
+  if (!template || !template.includes("__RHI_ASSET_ID__")) return false;
+  if (/^https?:\/\//i.test(template)) return false;
+  try {
+    const registry = rhiUxReadNavigationRegistry(storage);
+    registry[key] = { asset_detail_template:template };
+    storage?.setItem?.(RHI_UX_NAVIGATION_STORAGE_KEY, JSON.stringify(registry));
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
+function rhiUxResolveDomainAssetNavigation(domain = "", assetId = "", storage = globalThis?.localStorage) {
+  const key = String(domain || "").trim();
+  const id = String(assetId || "").trim();
+  if (!key || !id) return "";
+  const row = rhiUxReadNavigationRegistry(storage)[key];
+  const template = String(row?.asset_detail_template || "");
+  if (!template.includes("__RHI_ASSET_ID__")) return "";
+  return template.replaceAll("__RHI_ASSET_ID__", encodeURIComponent(id));
 }
