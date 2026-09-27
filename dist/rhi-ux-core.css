@@ -1,4 +1,4 @@
-/* RHI UX Core 1.5.1 */
+/* RHI UX Core 1.5.2 */
 :host,.rhi-ux-root{
   --rhi-color-primary:#1467F5;
   --rhi-color-primary-soft:#EAF3FF;
@@ -226,3 +226,17 @@
 .rhiUxContextControl.active,.rhiUxContextControl[aria-pressed="true"]{background:var(--rhi-color-primary-soft);border-color:#CFDEF1;color:#0F4CA4}
 .rhiUxContextControl:disabled{opacity:.46}
 @media(max-width:760px){.rhiUxContextBar{overflow-x:auto;flex-wrap:nowrap}.rhiUxContextBar>small,.rhiUxContextControls,.rhiUxContextControl{flex:0 0 auto}}
+
+/* Canonical cross-domain appearance picker. Domains own catalogs and persistence. */
+.rhiUxVisualPickerBackdrop{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.44);display:grid;place-items:center;padding:20px}
+.rhiUxVisualPickerPanel{width:min(760px,94vw);max-height:86vh;overflow:auto;background:#fff;border:1px solid var(--rhi-color-line);border-radius:20px;box-shadow:0 30px 80px rgba(15,23,42,.24);padding:18px;box-sizing:border-box}
+.rhiUxVisualPickerHead{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.rhiUxVisualPickerHead small{font-size:10px;font-weight:800;letter-spacing:.12em;color:#64748b}.rhiUxVisualPickerHead h3{margin:3px 0 0;font-size:20px}.rhiUxVisualPickerHead p{margin:4px 0 0;font-size:11px;color:#64748b}
+.rhiUxVisualPickerFilters{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.rhiUxVisualPickerFilters button{border:1px solid #dbe3ee;background:#fff;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer}.rhiUxVisualPickerFilters button.selected{border-color:#93c5fd;background:#eff6ff;color:#1d4ed8}
+.rhiUxVisualChoiceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.rhiUxVisualChoice{display:grid;grid-template-columns:104px minmax(0,1fr);gap:12px;align-items:center;text-align:left;border:1px solid #e2e8f0;background:#fff;border-radius:14px;padding:10px;cursor:pointer}.rhiUxVisualChoice:hover{border-color:#93c5fd;background:#f8fbff}.rhiUxVisualChoice.selected{border-color:#2563eb;box-shadow:0 0 0 2px rgba(37,99,235,.12);background:#f8fbff}
+.rhiUxVisualChoiceImage{height:68px;display:grid;place-items:center;overflow:hidden}.rhiUxVisualChoiceImage img{max-width:100%;max-height:100%;object-fit:contain}.rhiUxVisualChoiceCopy small,.rhiUxVisualChoiceCopy b,.rhiUxVisualChoiceCopy em{display:block}.rhiUxVisualChoiceCopy small{font-size:8px;color:#64748b;text-transform:uppercase}.rhiUxVisualChoiceCopy b{font-size:11px;margin-top:2px}.rhiUxVisualChoiceCopy em{font-size:9px;color:#64748b;font-style:normal;margin-top:2px}
+.rhiUxVisualPickerRefine{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:8px;margin-top:12px}.rhiUxVisualPickerRefine label span{display:block;font-size:8px;color:#64748b;margin-bottom:4px}.rhiUxVisualPickerRefine select{width:100%;height:36px;border:1px solid #dbe3ee;border-radius:8px;background:#fff;padding:0 8px}
+.rhiUxVisualPickerFooter{display:flex;align-items:center;gap:8px;margin-top:16px;padding-top:13px;border-top:1px solid #edf1f6}.rhiUxVisualPickerSpacer{flex:1}.rhiUxVisualPickerFooter button{height:36px;border:1px solid #dbe3ee;border-radius:9px;background:#fff;padding:0 12px;font-size:10px;font-weight:700}.rhiUxVisualPickerFooter button.primary{background:#0b65ea;color:#fff;border-color:#0b65ea}.rhiUxVisualPickerFooter button:disabled{opacity:.45}
+@media(max-width:760px){.rhiUxVisualChoiceGrid{grid-template-columns:1fr}.rhiUxVisualPickerRefine{grid-template-columns:1fr 1fr}.rhiUxVisualPickerPanel{padding:14px}.rhiUxVisualPickerFooter{flex-wrap:wrap}}

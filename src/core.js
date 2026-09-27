@@ -1,6 +1,6 @@
-// RHI UX Core 1.5.1 — build-time presentation primitives only.
+// RHI UX Core 1.5.2 — build-time presentation primitives only.
 // No domain semantics or Home Assistant contract/entity knowledge belongs here.
-const RHI_UX_CORE_VERSION = "1.5.1";
+const RHI_UX_CORE_VERSION = "1.5.2";
 const RHI_UX_COMPANY_LOGO_SVG = "__RHI_UX_COMPANY_LOGO_INLINE__";
 
 function rhiUxEscape(value) {
@@ -113,4 +113,29 @@ function rhiUxResolveDomainAssetNavigation(domain = "", assetId = "", storage = 
   const template = String(row?.asset_detail_template || "");
   if (!template.includes("{asset_id}")) return "";
   return template.replaceAll("{asset_id}", encodeURIComponent(id));
+}
+
+
+function rhiUxVisualPickerShell({
+  eyebrow = "Appearance",
+  title = "Choose appearance",
+  description = "",
+  filtersHtml = "",
+  choicesHtml = "",
+  refineHtml = "",
+  selectedHtml = "",
+  resetHtml = "",
+  cancelHtml = "",
+  saveHtml = "",
+  modal = false,
+  closeHtml = ""
+} = {}) {
+  const panel = `<section class="rhiUxVisualPickerPanel" role="${modal ? "dialog" : "region"}"${modal ? ' aria-modal="true"' : ""}>
+    <header class="rhiUxVisualPickerHead"><div><small>${rhiUxEscape(eyebrow)}</small><h3>${rhiUxEscape(title)}</h3>${description ? `<p>${rhiUxEscape(description)}</p>` : ""}</div>${closeHtml}</header>
+    ${filtersHtml ? `<div class="rhiUxVisualPickerFilters">${filtersHtml}</div>` : ""}
+    <div class="rhiUxVisualChoiceGrid">${choicesHtml}</div>
+    ${refineHtml ? `<div class="rhiUxVisualPickerRefine">${refineHtml}</div>` : ""}
+    <footer class="rhiUxVisualPickerFooter">${resetHtml}<span class="rhiUxVisualPickerSpacer"></span>${selectedHtml}${cancelHtml}${saveHtml}</footer>
+  </section>`;
+  return modal ? `<div class="rhiUxVisualPickerBackdrop">${panel}</div>` : panel;
 }
