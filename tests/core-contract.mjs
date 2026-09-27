@@ -7,7 +7,7 @@ vm.createContext(context);
 vm.runInContext(src,context);
 const coreVersion=vm.runInContext("RHI_UX_CORE_VERSION",context);
 if(coreVersion!==pkg.version) throw new Error(`Core version projection drift: ${coreVersion} != ${pkg.version}`);
-const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar"];
+const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar","rhiUxContextBar"];
 for(const name of required){
   if(typeof context[name]!=="function") throw new Error(`missing public primitive: ${name}`);
 }
@@ -46,3 +46,9 @@ console.log("PASS unified hero/status/actions/body contract");
 if(!css.includes(".rhiUxPageStack>.rhiUxPageHero{order:1}")) throw new Error("page hero order invariant missing");
 if(!css.includes(".rhiUxPageStack>.rhiUxStatusGrid{order:2}")) throw new Error("page status order invariant missing");
 if(!css.includes(".rhiUxPageStack>.rhiUxQuickActionBar{order:3}")) throw new Error("page quick-action order invariant missing");
+
+const noContext=context.rhiUxContextBar({controls:[]});
+if(noContext!=="") throw new Error("empty context controls must not render chrome");
+const contextBar=context.rhiUxContextBar({label:"Period",controls:[{label:"Today",value:"D0",active:true},{label:"Tomorrow",value:"D1"}],controlsId:"planning-body"});
+if(!contextBar.includes("rhiUxContextBar") || !contextBar.includes('aria-controls="planning-body"') || !contextBar.includes("rhiUxContextControl active")) throw new Error("body-scoped context controls primitive failed");
+console.log("PASS optional body-scoped context controls");

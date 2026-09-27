@@ -150,3 +150,19 @@
   .rhiUxPageHeroArt{inset:0 0 0 38%}
   .rhiUxStatusGrid{grid-template-columns:1fr 1fr}
 }
+
+/* Optional body/section-scoped view and filter controls. */
+.rhiUxContextBar{
+  min-height:42px;padding:4px 7px;margin:0 0 8px;border:1px solid var(--rhi-color-line);border-radius:var(--rhi-radius-md);
+  background:#fff;box-shadow:var(--rhi-shadow-sm);display:flex;align-items:center;gap:7px;flex-wrap:wrap;
+}
+.rhiUxContextBar>small{
+  font-size:var(--rhi-font-label);letter-spacing:.10em;text-transform:uppercase;color:#476487;font-weight:var(--rhi-weight-medium);white-space:nowrap;
+}
+.rhiUxContextControls{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.rhiUxContextControl{
+  min-height:32px;border:1px solid #D6E0EB;border-radius:9px;background:#fff;color:#355D96;font:inherit;font-size:11.5px;font-weight:var(--rhi-weight-medium);padding:0 11px;cursor:pointer;white-space:nowrap;
+}
+.rhiUxContextControl.active,.rhiUxContextControl[aria-pressed="true"]{background:var(--rhi-color-primary-soft);border-color:#CFDEF1;color:#0F4CA4}
+.rhiUxContextControl:disabled{opacity:.46}
+@media(max-width:760px){.rhiUxContextBar{overflow-x:auto;flex-wrap:nowrap}.rhiUxContextBar>small,.rhiUxContextControls,.rhiUxContextControl{flex:0 0 auto}}
