@@ -39,4 +39,4 @@ Rules:
 - The producer UX owns its route shape and current dashboard root.
 - Consumers never hardcode another domain's dashboard path or query grammar.
 - Registration is optional; absence means no cross-domain navigation action is rendered.
-- Templates are same-origin relative paths and must contain `__RHI_ASSET_ID__`.
+- Templates are same-origin relative paths and must contain `{asset_id}`.
