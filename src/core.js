@@ -1,6 +1,6 @@
 // RHI UX Core 1.4.1 — build-time presentation primitives only.
 // No domain semantics or Home Assistant contract/entity knowledge belongs here.
-const RHI_UX_CORE_VERSION = "1.4.1";
+const RHI_UX_CORE_VERSION = "1.5.0";
 const RHI_UX_COMPANY_LOGO_SVG = "__RHI_UX_COMPANY_LOGO_INLINE__";
 
 function rhiUxEscape(value) {
@@ -58,4 +58,20 @@ function rhiUxDomainShell({ product = "Home Intelligence", domain = "", modules 
 
 function rhiUxQuickActionBar({ label = "Quick actions", actions = [] } = {}) {
   return `<section class="rhiUxQuickActionBar" aria-label="${rhiUxEscape(label)}"><small>${rhiUxEscape(label)}</small><div class="rhiUxQuickActions">${actions.map((action,index) => `<button type="button" class="rhiUxQuickAction${action.primary || index === 0 ? " primary" : ""}"${action.target ? ` data-nav="${rhiUxEscape(action.target)}"` : ""}${action.disabled ? " disabled" : ""}>${action.icon ? `<ha-icon icon="${rhiUxEscape(action.icon)}"></ha-icon>` : ""}<span>${rhiUxEscape(action.label || "Open")}</span></button>`).join("")}</div></section>`;
+}
+
+function rhiUxContextBar({ label = "View", controls = [], controlsId = "" } = {}) {
+  if (!Array.isArray(controls) || controls.length === 0) return "";
+  const labelled = label ? `<small>${rhiUxEscape(label)}</small>` : "";
+  const body = controls.map((control,index) => {
+    const attrs = [];
+    if (control.value !== undefined) attrs.push(`data-value="${rhiUxEscape(control.value)}"`);
+    if (control.target) attrs.push(`data-nav="${rhiUxEscape(control.target)}"`);
+    if (control.pressed !== undefined) attrs.push(`aria-pressed="${control.pressed ? "true" : "false"}"`);
+    if (control.disabled) attrs.push("disabled");
+    const cls = `rhiUxContextControl${control.active || control.pressed ? " active" : ""}`;
+    return `<button type="button" class="${cls}" ${attrs.join(" ")}>${rhiUxEscape(control.label || control.value || `Option ${index+1}`)}</button>`;
+  }).join("");
+  const idAttr = controlsId ? ` aria-controls="${rhiUxEscape(controlsId)}"` : "";
+  return `<section class="rhiUxContextBar" aria-label="${rhiUxEscape(label || "View controls")}"${idAttr}>${labelled}<div class="rhiUxContextControls">${body}</div></section>`;
 }
