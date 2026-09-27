@@ -7,7 +7,7 @@ vm.createContext(context);
 vm.runInContext(src,context);
 const coreVersion=vm.runInContext("RHI_UX_CORE_VERSION",context);
 if(coreVersion!==pkg.version) throw new Error(`Core version projection drift: ${coreVersion} != ${pkg.version}`);
-const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar","rhiUxContextBar"];
+const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar","rhiUxContextBar","rhiUxReadNavigationRegistry","rhiUxRegisterDomainNavigation","rhiUxResolveDomainAssetNavigation"];
 for(const name of required){
   if(typeof context[name]!=="function") throw new Error(`missing public primitive: ${name}`);
 }
@@ -52,3 +52,17 @@ if(noContext!=="") throw new Error("empty context controls must not render chrom
 const contextBar=context.rhiUxContextBar({label:"Period",controls:[{label:"Today",value:"D0",active:true},{label:"Tomorrow",value:"D1"}],controlsId:"planning-body"});
 if(!contextBar.includes("rhiUxContextBar") || !contextBar.includes('aria-controls="planning-body"') || !contextBar.includes("rhiUxContextControl active")) throw new Error("body-scoped context controls primitive failed");
 console.log("PASS optional body-scoped context controls");
+
+
+const memoryStore = (() => {
+  let value = {};
+  return {
+    getItem:key => value[key] ?? null,
+    setItem:(key,next) => { value[key]=String(next); }
+  };
+})();
+if(!context.rhiUxRegisterDomainNavigation({domain:"rhi_test",assetDetailTemplate:"/custom-dashboard/asset-detail?asset=__RHI_ASSET_ID__"},memoryStore)) throw new Error("domain navigation registration failed");
+const resolvedNav=context.rhiUxResolveDomainAssetNavigation("rhi_test","vehicle one",memoryStore);
+if(resolvedNav!=="/custom-dashboard/asset-detail?asset=vehicle%20one") throw new Error("domain asset navigation resolution failed");
+if(context.rhiUxRegisterDomainNavigation({domain:"rhi_bad",assetDetailTemplate:"https://example.test/__RHI_ASSET_ID__"},memoryStore)) throw new Error("absolute navigation templates must be rejected");
+console.log("PASS generic cross-domain navigation registry");
