@@ -61,8 +61,8 @@ const memoryStore = (() => {
     setItem:(key,next) => { value[key]=String(next); }
   };
 })();
-if(!context.rhiUxRegisterDomainNavigation({domain:"rhi_test",assetDetailTemplate:"/custom-dashboard/asset-detail?asset=__RHI_ASSET_ID__"},memoryStore)) throw new Error("domain navigation registration failed");
+if(!context.rhiUxRegisterDomainNavigation({domain:"rhi_test",assetDetailTemplate:"/custom-dashboard/asset-detail?asset={asset_id}"},memoryStore)) throw new Error("domain navigation registration failed");
 const resolvedNav=context.rhiUxResolveDomainAssetNavigation("rhi_test","vehicle one",memoryStore);
 if(resolvedNav!=="/custom-dashboard/asset-detail?asset=vehicle%20one") throw new Error("domain asset navigation resolution failed");
-if(context.rhiUxRegisterDomainNavigation({domain:"rhi_bad",assetDetailTemplate:"https://example.test/__RHI_ASSET_ID__"},memoryStore)) throw new Error("absolute navigation templates must be rejected");
+if(context.rhiUxRegisterDomainNavigation({domain:"rhi_bad",assetDetailTemplate:"https://example.test/{asset_id}"},memoryStore)) throw new Error("absolute navigation templates must be rejected");
 console.log("PASS generic cross-domain navigation registry");
