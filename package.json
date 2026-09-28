@@ -16,7 +16,8 @@
     "check:syntax": "node --check dist/rhi-ux-core.js",
     "test:contract": "node tests/core-contract.mjs",
     "test:ownership": "node tests/ownership-boundary.mjs",
-    "validate": "npm run build && npm run check:syntax && npm run test:contract && npm run test:ownership",
+    "test:visual-governance": "node tests/visual-governance.mjs",
+    "validate": "npm run build && npm run check:syntax && npm run test:contract && npm run test:ownership && npm run test:visual-governance",
     "test": "npm run validate",
     "preflight": "npm run validate"
   },
