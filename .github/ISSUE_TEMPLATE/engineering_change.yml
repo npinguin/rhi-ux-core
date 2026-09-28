@@ -1,0 +1,26 @@
+name: Engineering change
+description: Track a RHI change from user need through closure and release projection
+title: "[Change] "
+body:
+  - type: textarea
+    id: need
+    attributes: {label: User / problem statement, description: "Describe the observable need or defect, not the proposed patch."}
+    validations: {required: true}
+  - type: dropdown
+    id: classification
+    attributes: {label: Classification, options: [DEFECT, FEATURE_DEBT, TECH_DEBT, RUNTIME_PROOF_GAP, CONFIG]}
+    validations: {required: true}
+  - type: textarea
+    id: impact
+    attributes: {label: Ownership and impact, description: "Owner, impacted packages/contracts, authoritative source and generated projections."}
+    validations: {required: true}
+  - type: textarea
+    id: acceptance
+    attributes: {label: Acceptance and runtime proof, description: "State the observable end-to-end acceptance path and runtime proof required."}
+    validations: {required: true}
+  - type: textarea
+    id: prevention
+    attributes: {label: Lessons / prevention, description: "Unexpected findings, root cause and prevention action."}
+  - type: textarea
+    id: release
+    attributes: {label: Release-note projection, description: "User-visible release-note outcome; keep internal lessons separate."}
