@@ -7,7 +7,7 @@ vm.createContext(context);
 vm.runInContext(src,context);
 const coreVersion=vm.runInContext("RHI_UX_CORE_VERSION",context);
 if(coreVersion!==pkg.version) throw new Error(`Core version projection drift: ${coreVersion} != ${pkg.version}`);
-const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar","rhiUxContextBar","rhiUxReadNavigationRegistry","rhiUxRegisterDomainNavigation","rhiUxResolveDomainAssetNavigation"];
+const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar","rhiUxContextBar","rhiUxReadNavigationRegistry","rhiUxRegisterDomainNavigation","rhiUxResolveDomainAssetNavigation","rhiUxVisualPickerShell","rhiUxVisualFilterButtons","rhiUxVisualChoice","rhiUxVisualSelect"];
 for(const name of required){
   if(typeof context[name]!=="function") throw new Error(`missing public primitive: ${name}`);
 }
@@ -66,3 +66,5 @@ const resolvedNav=context.rhiUxResolveDomainAssetNavigation("rhi_test","vehicle 
 if(resolvedNav!=="/custom-dashboard/asset-detail?asset=vehicle%20one") throw new Error("domain asset navigation resolution failed");
 if(context.rhiUxRegisterDomainNavigation({domain:"rhi_bad",assetDetailTemplate:"https://example.test/{asset_id}"},memoryStore)) throw new Error("absolute navigation templates must be rejected");
 console.log("PASS generic cross-domain navigation registry");
+
+const visualFilters=context.rhiUxVisualFilterButtons({values:["Audi","BMW"],active:"Audi"});if(!visualFilters.includes('aria-pressed="true"'))throw new Error("visual filter primitive failed");const visualChoice=context.rhiUxVisualChoice({id:"q8",image:"/q8.png",label:"Q8",selected:true});if(!visualChoice.includes("rhiUxVisualChoice selected"))throw new Error("visual choice primitive failed");const visualSelect=context.rhiUxVisualSelect({label:"Colour",value:"grey",options:[{value:"grey",label:"Grey"}]});if(!visualSelect.includes('value="grey" selected'))throw new Error("visual select primitive failed");console.log("PASS canonical cross-domain appearance primitives");
