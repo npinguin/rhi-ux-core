@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "id": "rhi.visual-spec.v1",
+  "runtime_dependency": false,
+  "package_ownership": "domain-local",
+  "visual_classes": {
+    "hero_scene": {
+      "width": 2400,
+      "height": 800,
+      "aspect_ratio": "3:1",
+      "transparent_background": false,
+      "requires_focal_point": true,
+      "requires_safe_area": true
+    },
+    "product_wide": {
+      "width": 1600,
+      "height": 950,
+      "transparent_background": true
+    },
+    "product_square": {
+      "width": 1400,
+      "height": 1400,
+      "transparent_background": true
+    },
+    "product_landscape": {
+      "width": 1600,
+      "height": 1200,
+      "transparent_background": true
+    }
+  },
+  "families": [
+    "hero",
+    "product",
+    "generic_fallback"
+  ],
+  "quality_values": [
+    "verified_product",
+    "verified_appearance",
+    "representative_brand",
+    "representative_generic",
+    "generic_family",
+    "derived_appearance",
+    "deprecated"
+  ],
+  "product_search_order": [
+    "sku",
+    "brand_model",
+    "brand_type",
+    "official_manufacturer",
+    "authorised_distributor",
+    "generated_or_derived"
+  ],
+  "required_product_metadata": [
+    "id",
+    "family",
+    "visual_class",
+    "quality",
+    "package_path",
+    "width",
+    "height",
+    "brand",
+    "model",
+    "search_key_primary",
+    "source_kind",
+    "status"
+  ],
+  "required_hero_metadata": [
+    "id",
+    "family",
+    "visual_class",
+    "quality",
+    "package_path",
+    "width",
+    "height",
+    "hero_key",
+    "focal_x",
+    "focal_y",
+    "safe_left",
+    "safe_right",
+    "status"
+  ],
+  "invariants": {
+    "hero_must_not_be_generic_fallback": true,
+    "domain_assets_remain_package_local": true,
+    "core_must_not_own_domain_products": true,
+    "verified_product_must_not_use_generic_artwork": true,
+    "manifest_is_domain_source_of_truth": true
+  }
+}
