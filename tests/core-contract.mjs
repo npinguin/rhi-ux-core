@@ -68,3 +68,13 @@ if(context.rhiUxRegisterDomainNavigation({domain:"rhi_bad",assetDetailTemplate:"
 console.log("PASS generic cross-domain navigation registry");
 
 const visualFilters=context.rhiUxVisualFilterButtons({values:["Audi","BMW"],active:"Audi"});if(!visualFilters.includes('aria-pressed="true"'))throw new Error("visual filter primitive failed");const visualChoice=context.rhiUxVisualChoice({id:"q8",image:"/q8.png",label:"Q8",selected:true});if(!visualChoice.includes("rhiUxVisualChoice selected"))throw new Error("visual choice primitive failed");const visualSelect=context.rhiUxVisualSelect({label:"Colour",value:"grey",options:[{value:"grey",label:"Grey"}]});if(!visualSelect.includes('value="grey" selected'))throw new Error("visual select primitive failed");console.log("PASS canonical cross-domain appearance primitives");
+
+
+for (const token of [
+  '.rhiUxVisualChoiceImage{width:104px;height:68px;min-width:104px;min-height:68px;max-width:104px;max-height:68px',
+  '.rhiUxVisualChoiceImage img{display:block;width:100%;height:100%;min-width:0;min-height:0;max-width:100%;max-height:100%;object-fit:contain;object-position:center}',
+  '.rhiUxVisualChoice{grid-template-columns:96px minmax(0,1fr)}'
+]) {
+  if (!css.includes(token)) throw new Error('visual choice image zone must be width-bounded and source-size independent: '+token);
+}
+console.log("PASS visual choice artwork geometry is source-size independent");
