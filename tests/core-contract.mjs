@@ -7,7 +7,7 @@ vm.createContext(context);
 vm.runInContext(src,context);
 const coreVersion=vm.runInContext("RHI_UX_CORE_VERSION",context);
 if(coreVersion!==pkg.version) throw new Error(`Core version projection drift: ${coreVersion} != ${pkg.version}`);
-const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar","rhiUxContextBar","rhiUxReadNavigationRegistry","rhiUxRegisterDomainNavigation","rhiUxResolveDomainAssetNavigation","rhiUxVisualPickerShell","rhiUxVisualFilterButtons","rhiUxVisualChoice","rhiUxVisualSelect"];
+const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar","rhiUxContextBar","rhiUxReadNavigationRegistry","rhiUxRegisterDomainNavigation","rhiUxResolveDomainAssetNavigation","rhiUxVisualPickerShell","rhiUxVisualPickerStyles","rhiUxVisualFilterButtons","rhiUxVisualChoice","rhiUxVisualSelect"];
 for(const name of required){
   if(typeof context[name]!=="function") throw new Error(`missing public primitive: ${name}`);
 }
@@ -78,3 +78,18 @@ for (const token of [
   if (!css.includes(token)) throw new Error('visual choice image zone must be width-bounded and source-size independent: '+token);
 }
 console.log("PASS visual choice artwork geometry is source-size independent");
+
+
+const pickerCss=context.rhiUxVisualPickerStyles();
+for(const token of [
+  "max-height:min(82vh,760px)",
+  "grid-template-columns:repeat(3,minmax(0,1fr))",
+  "grid-auto-rows:142px",
+  "overflow-y:auto",
+  "object-fit:contain",
+  "grid-template-rows:auto auto minmax(0,1fr) auto auto"
+]){
+  if(!pickerCss.includes(token)) throw new Error(`bounded appearance picker contract missing: ${token}`);
+}
+if(pickerCss.includes("overflow:auto;background:#fff")) throw new Error("whole appearance modal must not own scrolling");
+console.log("PASS bounded compact appearance picker contract");
