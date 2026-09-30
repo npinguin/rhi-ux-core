@@ -7,7 +7,7 @@ vm.createContext(context);
 vm.runInContext(src,context);
 const coreVersion=vm.runInContext("RHI_UX_CORE_VERSION",context);
 if(coreVersion!==pkg.version) throw new Error(`Core version projection drift: ${coreVersion} != ${pkg.version}`);
-const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar","rhiUxContextBar","rhiUxReadNavigationRegistry","rhiUxRegisterDomainNavigation","rhiUxResolveDomainAssetNavigation","rhiUxVisualPickerShell","rhiUxVisualFilterButtons","rhiUxVisualChoice","rhiUxVisualSelect"];
+const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar","rhiUxContextBar","rhiUxReadNavigationRegistry","rhiUxRegisterDomainNavigation","rhiUxResolveDomainAssetNavigation","rhiUxVisualPickerShell","rhiUxVisualPickerStyles","rhiUxVisualFilterButtons","rhiUxVisualChoice","rhiUxVisualSelect"];
 for(const name of required){
   if(typeof context[name]!=="function") throw new Error(`missing public primitive: ${name}`);
 }
@@ -71,10 +71,26 @@ const visualFilters=context.rhiUxVisualFilterButtons({values:["Audi","BMW"],acti
 
 
 for (const token of [
-  '.rhiUxVisualChoiceImage{width:104px;height:68px;min-width:104px;min-height:68px;max-width:104px;max-height:68px',
+  '.rhiUxVisualChoice{height:142px;min-height:142px;max-height:142px',
+  '.rhiUxVisualChoiceImage{width:100%;height:86px;min-width:0;min-height:86px;max-width:none;max-height:86px',
   '.rhiUxVisualChoiceImage img{display:block;width:100%;height:100%;min-width:0;min-height:0;max-width:100%;max-height:100%;object-fit:contain;object-position:center}',
-  '.rhiUxVisualChoice{grid-template-columns:96px minmax(0,1fr)}'
+  '.rhiUxVisualChoice{height:116px;min-height:116px;max-height:116px;grid-template-columns:94px minmax(0,1fr)'
 ]) {
-  if (!css.includes(token)) throw new Error('visual choice image zone must be width-bounded and source-size independent: '+token);
+  if (!css.includes(token)) throw new Error('visual choice image zone must be fixed, bounded and source-size independent: '+token);
 }
-console.log("PASS visual choice artwork geometry is source-size independent");
+console.log("PASS visual choice artwork geometry is fixed and source-size independent");
+
+
+const pickerCss=context.rhiUxVisualPickerStyles();
+for(const token of [
+  "max-height:min(82vh,760px)",
+  "grid-template-columns:repeat(3,minmax(0,1fr))",
+  "grid-auto-rows:142px",
+  "overflow-y:auto",
+  "object-fit:contain",
+  "grid-template-rows:auto auto minmax(0,1fr) auto auto"
+]){
+  if(!pickerCss.includes(token)) throw new Error(`bounded appearance picker contract missing: ${token}`);
+}
+if(pickerCss.includes("overflow:auto;background:#fff")) throw new Error("whole appearance modal must not own scrolling");
+console.log("PASS bounded compact appearance picker contract");
