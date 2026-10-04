@@ -32,7 +32,7 @@
 
 /* Canonical page hero: image is one background layer, never a split side panel. */
 .rhiUxPageHero{
-  position:relative;display:block;height:118px;min-height:118px;overflow:hidden;
+  position:relative;display:block;height:146px;min-height:146px;overflow:hidden;
   border:0;border-radius:var(--rhi-radius-lg);background:#fff;box-shadow:none;margin:0;
 }
 .rhiUxPageHeroCopy{
@@ -143,7 +143,7 @@
 }
 @media(max-width:430px){
   :host,.rhi-ux-root{--rhi-page-pad-x:8px;--rhi-page-pad-y:8px}
-  .rhiUxPageHero{height:146px;min-height:146px}
+  .rhiUxPageHero{height:118px;min-height:118px}
   .rhiUxPageHeroCopy{width:64%;padding:16px 8px 14px 11px}
   .rhiUxPageHeroCopy h1,.rhiUxPageHeroCopy h2{font-size:24px}
   .rhiUxPageHeroCopy p{font-size:10.5px;-webkit-line-clamp:2}
