@@ -7,7 +7,7 @@ vm.createContext(context);
 vm.runInContext(src,context);
 const coreVersion=vm.runInContext("RHI_UX_CORE_VERSION",context);
 if(coreVersion!==pkg.version) throw new Error(`Core version projection drift: ${coreVersion} != ${pkg.version}`);
-const required=["rhiUxEscape","rhiUxDisplay","rhiUxLocaleCandidates","rhiUxTranslate","rhiUxFormatNumber","rhiUxFormatCurrency","rhiUxFormatPercent","rhiUxFormatDateTime","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar","rhiUxContextBar","rhiUxPageTemplate","rhiUxAssetIdentity","rhiUxAssetFactGrid","rhiUxAssetRelationship","rhiUxAssetDisclosure","rhiUxWriteFeedback","rhiUxReadNavigationRegistry","rhiUxRegisterDomainNavigation","rhiUxResolveDomainAssetNavigation","rhiUxVisualPickerShell","rhiUxVisualPickerStyles","rhiUxVisualFilterButtons","rhiUxVisualChoice","rhiUxVisualSelect"];
+const required=["rhiUxEscape","rhiUxDisplay","rhiUxLocaleCandidates","rhiUxTranslate","rhiUxFormatNumber","rhiUxFormatCurrency","rhiUxFormatPercent","rhiUxFormatDateTime","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar","rhiUxContextBar","rhiUxPageTemplate","rhiUxAssetCardShell","rhiUxAssetIdentity","rhiUxAssetFactGrid","rhiUxAssetRelationship","rhiUxAssetDisclosure","rhiUxWriteFeedback","rhiUxReadNavigationRegistry","rhiUxRegisterDomainNavigation","rhiUxResolveDomainAssetNavigation","rhiUxVisualPickerShell","rhiUxVisualPickerStyles","rhiUxVisualFilterButtons","rhiUxVisualChoice","rhiUxVisualSelect"];
 for(const name of required){
   if(typeof context[name]!=="function") throw new Error(`missing public primitive: ${name}`);
 }
@@ -15,7 +15,7 @@ if(context.rhiUxDisplay(null)!=="—") throw new Error("null display semantics d
 if(context.rhiUxDisplay(0)!=="0") throw new Error("zero must remain zero");
 if(!context.rhiUxState({state:"unavailable",title:"No data"}).includes('data-state="unavailable"')) throw new Error("unavailable state rendering failed");
 const css=fs.readFileSync("dist/rhi-ux-core.css","utf8");
-for(const token of ["--rhi-color-primary","--rhi-space-1","--rhi-radius-lg","--rhi-page-max","--rhi-font-family","--rhi-font-display"]){
+for(const token of ["--rhi-color-primary","--rhi-space-1","--rhi-radius-lg","--rhi-page-max","--rhi-font-family","--rhi-font-display","--rhi-font-value","--rhi-font-diagnostic"]){
   if(!css.includes(token)) throw new Error(`missing token: ${token}`);
 }
 console.log("PASS RHI UX Core public primitive contract");
@@ -110,9 +110,16 @@ console.log("PASS shared EN/NL/FR localization and locale formatting foundation"
 
 const page=context.rhiUxPageTemplate({hero:"<h1>Hero</h1>",status:"<div>Status</div>",content:"<p>Body</p>"});
 if(!page.includes("rhiUxPageContent") || !page.includes("<p>Body</p>")) throw new Error("canonical page template failed");
+const card=context.rhiUxAssetCardShell({identity:"<header>Asset</header>",facts:"<div>Facts</div>",relationships:"<div>Relation</div>",actions:"<button>Action</button>",details:"<details>Details</details>",feedback:"<span>Saved</span>",className:"domainAccent"});
+if(!card.includes('class="rhiUxAssetCardShell domainAccent"') || !card.includes("rhiUxAssetCardActions") || !card.includes("rhiUxAssetCardDetails")) throw new Error("shared asset card shell failed");
 const facts=context.rhiUxAssetFactGrid([{label:"Battery",value:72,detail:"%"}]);
 if(!facts.includes("rhiUxAssetFact") || !facts.includes(">72<")) throw new Error("shared asset fact grammar failed");
 console.log("PASS canonical page and asset composition primitives");
 
 if(!css.includes("height:146px;min-height:146px")) throw new Error("desktop hero must use compact canonical geometry");
+if(!css.includes(".rhiUxAssetCardShell{display:grid")) throw new Error("shared asset card shell CSS missing");
 if(!css.includes(".rhiUxAssetFactGrid")) throw new Error("shared asset fact CSS missing");
+if(!css.includes("--rhi-font-label:10.5px")) throw new Error("product label typography must not fall below 10.5px");
+if(!css.includes("--rhi-font-small:11px")) throw new Error("secondary product typography must remain at least 11px");
+if(!css.includes("--rhi-font-body:12.5px")) throw new Error("body typography guardrail drifted");
+if(!css.includes("--rhi-font-value:13px")) throw new Error("primary value typography token missing");

@@ -1,6 +1,6 @@
 // RHI UX Core 1.5.5 — build-time presentation primitives only.
 // No domain semantics or Home Assistant contract/entity knowledge belongs here.
-const RHI_UX_CORE_VERSION = "1.6.0";
+const RHI_UX_CORE_VERSION = "1.6.1";
 const RHI_UX_COMPANY_LOGO_SVG = "__RHI_UX_COMPANY_LOGO_INLINE__";
 
 function rhiUxEscape(value) {
@@ -121,6 +121,19 @@ function rhiUxContextBar({ label = "View", controls = [], controlsId = "" } = {}
 
 function rhiUxPageTemplate({ hero = "", status = "", actions = "", context = "", content = "", className = "" } = {}) {
   return `<main class="rhiUxPage rhiUxPageStack ${rhiUxEscape(className)}">${hero}${status}${actions}${context}<section class="rhiUxPageContent">${content}</section></main>`;
+}
+
+function rhiUxAssetCardShell({ identity = "", facts = "", relationships = "", actions = "", details = "", feedback = "", className = "" } = {}) {
+  const cls = ["rhiUxAssetCardShell", String(className || "").trim()].filter(Boolean).join(" ");
+  const body = [
+    identity ? `<div class="rhiUxAssetCardIdentity">${identity}</div>` : "",
+    facts ? `<div class="rhiUxAssetCardFacts">${facts}</div>` : "",
+    relationships ? `<div class="rhiUxAssetCardRelationships">${relationships}</div>` : "",
+    actions ? `<div class="rhiUxAssetCardActions">${actions}</div>` : "",
+    details ? `<div class="rhiUxAssetCardDetails">${details}</div>` : "",
+    feedback ? `<div class="rhiUxAssetCardFeedback">${feedback}</div>` : ""
+  ].join("");
+  return `<article class="${rhiUxEscape(cls)}">${body}</article>`;
 }
 
 function rhiUxAssetIdentity({ eyebrow = "", title = "", subtitle = "", visual = "" } = {}) {

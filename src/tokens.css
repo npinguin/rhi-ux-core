@@ -20,7 +20,9 @@
   --rhi-font-card:15px;
   --rhi-font-body:12.5px;
   --rhi-font-small:11px;
-  --rhi-font-label:10px;
+  --rhi-font-label:10.5px;
+  --rhi-font-value:13px;
+  --rhi-font-diagnostic:10px;
   --rhi-weight-regular:400;
   --rhi-weight-medium:500;
   --rhi-weight-strong:600;
