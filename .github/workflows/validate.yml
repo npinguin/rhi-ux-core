@@ -27,6 +27,8 @@ jobs:
       - run: npm ci
       - name: Local-equivalent preflight
         run: npm run preflight
+      - name: Committed dist parity
+        run: git diff --exit-code -- dist
       - name: Deterministic build proof
         shell: bash
         run: |
@@ -42,6 +44,7 @@ jobs:
             echo '## RHI UX Core validation'
             echo '- Public primitive contract: npm preflight'
             echo '- Ownership boundary: npm preflight'
+            echo '- Committed dist parity: verified'
             echo '- Deterministic build: verified'
             echo '- Runtime dependency: none'
           } >> "$GITHUB_STEP_SUMMARY"
