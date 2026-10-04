@@ -2,12 +2,12 @@ import fs from "node:fs";
 import vm from "node:vm";
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
 const src=fs.readFileSync("dist/rhi-ux-core.js","utf8");
-const context={String,Object,Array};
+const context={String,Object,Array,Number,Date,Intl};
 vm.createContext(context);
 vm.runInContext(src,context);
 const coreVersion=vm.runInContext("RHI_UX_CORE_VERSION",context);
 if(coreVersion!==pkg.version) throw new Error(`Core version projection drift: ${coreVersion} != ${pkg.version}`);
-const required=["rhiUxEscape","rhiUxDisplay","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar","rhiUxContextBar","rhiUxReadNavigationRegistry","rhiUxRegisterDomainNavigation","rhiUxResolveDomainAssetNavigation","rhiUxVisualPickerShell","rhiUxVisualPickerStyles","rhiUxVisualFilterButtons","rhiUxVisualChoice","rhiUxVisualSelect"];
+const required=["rhiUxEscape","rhiUxDisplay","rhiUxLocaleCandidates","rhiUxTranslate","rhiUxFormatNumber","rhiUxFormatCurrency","rhiUxFormatPercent","rhiUxFormatDateTime","rhiUxStatusItem","rhiUxStatusGrid","rhiUxPageHero","rhiUxState","rhiUxConclusion","rhiUxTechnicalFooter","rhiUxCompanyBrand","rhiUxDomainShell","rhiUxQuickActionBar","rhiUxContextBar","rhiUxPageTemplate","rhiUxAssetIdentity","rhiUxAssetFactGrid","rhiUxAssetRelationship","rhiUxAssetDisclosure","rhiUxWriteFeedback","rhiUxReadNavigationRegistry","rhiUxRegisterDomainNavigation","rhiUxResolveDomainAssetNavigation","rhiUxVisualPickerShell","rhiUxVisualPickerStyles","rhiUxVisualFilterButtons","rhiUxVisualChoice","rhiUxVisualSelect"];
 for(const name of required){
   if(typeof context[name]!=="function") throw new Error(`missing public primitive: ${name}`);
 }
@@ -94,3 +94,25 @@ for(const token of [
 }
 if(pickerCss.includes("overflow:auto;background:#fff")) throw new Error("whole appearance modal must not own scrolling");
 console.log("PASS bounded compact appearance picker contract");
+
+
+const resources={
+  en:{"action.save":"Save","state.offline":"The device is offline"},
+  nl:{"action.save":"Opslaan"},
+  fr:{"action.save":"Enregistrer"}
+};
+if(context.rhiUxTranslate(resources,"action.save",{locale:"nl-BE"})!=="Opslaan") throw new Error("nl-BE locale fallback failed");
+if(context.rhiUxTranslate(resources,"state.offline",{locale:"fr-BE"})!=="The device is offline") throw new Error("English translation fallback failed");
+if(context.rhiUxTranslate(resources,"missing.key",{locale:"nl-BE",fallback:"Missing"})!=="Missing") throw new Error("translation fallback text failed");
+if(context.rhiUxFormatNumber(null,{locale:"nl-BE"})!=="—") throw new Error("locale formatter must preserve missing");
+if(context.rhiUxFormatNumber(0,{locale:"nl-BE"})==="—") throw new Error("locale formatter must preserve zero");
+console.log("PASS shared EN/NL/FR localization and locale formatting foundation");
+
+const page=context.rhiUxPageTemplate({hero:"<h1>Hero</h1>",status:"<div>Status</div>",content:"<p>Body</p>"});
+if(!page.includes("rhiUxPageContent") || !page.includes("<p>Body</p>")) throw new Error("canonical page template failed");
+const facts=context.rhiUxAssetFactGrid([{label:"Battery",value:72,detail:"%"}]);
+if(!facts.includes("rhiUxAssetFact") || !facts.includes(">72<")) throw new Error("shared asset fact grammar failed");
+console.log("PASS canonical page and asset composition primitives");
+
+if(!css.includes("height:146px;min-height:146px")) throw new Error("desktop hero must use compact canonical geometry");
+if(!css.includes(".rhiUxAssetFactGrid")) throw new Error("shared asset fact CSS missing");

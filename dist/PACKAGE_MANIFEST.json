@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "product": "rhi-ux-core",
-  "version": "1.5.5",
+  "version": "1.6.0",
   "runtime_dependency": false,
   "artifacts": {
-    "rhi-ux-core.js": "d7f1c80ba633f1c79ba4e476878ddb92f39628a55710ef5455e9c7a0fb728ec5",
-    "rhi-ux-core.css": "298d529f9bd0d621c0c84b4a41f1ae19270abd267b88ed667b963b0ff4c30d8d",
+    "rhi-ux-core.js": "e6f971796fa1dfcb78513042195b6277d627952969e3b06e2fbb432080995be9",
+    "rhi-ux-core.css": "cbd8730617080b52d1efe44ad6c798a31c8a135155d84d1f9973c29d82624884",
     "assets/branding/company-logo.svg": "264f0d86798a2a53e30b8beb5cae366e4b0916adbb3716b3deb23b5ddbed053d"
   }
 }

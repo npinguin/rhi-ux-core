@@ -1,6 +1,6 @@
 // RHI UX Core 1.5.5 — build-time presentation primitives only.
 // No domain semantics or Home Assistant contract/entity knowledge belongs here.
-const RHI_UX_CORE_VERSION = "1.5.5";
+const RHI_UX_CORE_VERSION = "1.6.0";
 const RHI_UX_COMPANY_LOGO_SVG = "__RHI_UX_COMPANY_LOGO_INLINE__";
 
 function rhiUxEscape(value) {
@@ -11,6 +11,48 @@ function rhiUxEscape(value) {
 
 function rhiUxDisplay(value, fallback = "—") {
   return value === undefined || value === null || value === "" ? fallback : String(value);
+}
+
+function rhiUxLocaleCandidates(locale = "en") {
+  const normalized = String(locale || "en").trim().replace(/_/g, "-").toLowerCase();
+  const base = normalized.split("-")[0] || "en";
+  return [...new Set([normalized, base, "en"])];
+}
+
+function rhiUxTranslate(resources = {}, key = "", { locale = "en", params = {}, fallback = "" } = {}) {
+  const wanted = String(key || "");
+  let template = "";
+  for (const candidate of rhiUxLocaleCandidates(locale)) {
+    const row = resources?.[candidate];
+    if (row && Object.prototype.hasOwnProperty.call(row, wanted)) {
+      template = String(row[wanted] ?? "");
+      break;
+    }
+  }
+  if (!template) template = fallback || wanted;
+  return template.replace(/\{([a-zA-Z0-9_]+)\}/g, (_, name) => rhiUxDisplay(params?.[name], ""));
+}
+
+function rhiUxFormatNumber(value, { locale = "en", maximumFractionDigits = 2, minimumFractionDigits = 0 } = {}) {
+  if (value === undefined || value === null || value === "" || !Number.isFinite(Number(value))) return "—";
+  return new Intl.NumberFormat(locale, { maximumFractionDigits, minimumFractionDigits }).format(Number(value));
+}
+
+function rhiUxFormatCurrency(value, currency = "EUR", { locale = "en", maximumFractionDigits = 2 } = {}) {
+  if (value === undefined || value === null || value === "" || !Number.isFinite(Number(value))) return "—";
+  return new Intl.NumberFormat(locale, { style:"currency", currency, maximumFractionDigits }).format(Number(value));
+}
+
+function rhiUxFormatPercent(value, { locale = "en", scale = 100, maximumFractionDigits = 1 } = {}) {
+  if (value === undefined || value === null || value === "" || !Number.isFinite(Number(value))) return "—";
+  return new Intl.NumberFormat(locale, { style:"percent", maximumFractionDigits }).format(Number(value) / Number(scale || 100));
+}
+
+function rhiUxFormatDateTime(value, { locale = "en", dateStyle = "medium", timeStyle = "short" } = {}) {
+  if (value === undefined || value === null || value === "") return "—";
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  return new Intl.DateTimeFormat(locale, { dateStyle, timeStyle }).format(date);
 }
 
 function rhiUxStatusItem({ icon = "•", label = "", value = "—", detail = "" } = {}) {
@@ -75,6 +117,34 @@ function rhiUxContextBar({ label = "View", controls = [], controlsId = "" } = {}
   const idAttr = controlsId ? ` aria-controls="${rhiUxEscape(controlsId)}"` : "";
   return `<section class="rhiUxContextBar" aria-label="${rhiUxEscape(label || "View controls")}"${idAttr}>${labelled}<div class="rhiUxContextControls">${body}</div></section>`;
 }
+
+
+function rhiUxPageTemplate({ hero = "", status = "", actions = "", context = "", content = "", className = "" } = {}) {
+  return `<main class="rhiUxPage rhiUxPageStack ${rhiUxEscape(className)}">${hero}${status}${actions}${context}<section class="rhiUxPageContent">${content}</section></main>`;
+}
+
+function rhiUxAssetIdentity({ eyebrow = "", title = "", subtitle = "", visual = "" } = {}) {
+  return `<header class="rhiUxAssetIdentity">${visual ? `<div class="rhiUxAssetVisual">${visual}</div>` : ""}<div class="rhiUxAssetIdentityCopy">${eyebrow ? `<small>${rhiUxEscape(eyebrow)}</small>` : ""}<h2>${rhiUxEscape(title)}</h2>${subtitle ? `<p>${rhiUxEscape(subtitle)}</p>` : ""}</div></header>`;
+}
+
+function rhiUxAssetFactGrid(items = []) {
+  return `<div class="rhiUxAssetFactGrid">${items.map(item => `<div class="rhiUxAssetFact"><small>${rhiUxEscape(item?.label || "")}</small><b>${rhiUxEscape(rhiUxDisplay(item?.value))}</b>${item?.detail ? `<span>${rhiUxEscape(item.detail)}</span>` : ""}</div>`).join("")}</div>`;
+}
+
+function rhiUxAssetRelationship({ label = "", value = "", detail = "", target = "" } = {}) {
+  return `<div class="rhiUxAssetRelationship"><div><small>${rhiUxEscape(label)}</small><b>${rhiUxEscape(rhiUxDisplay(value))}</b>${detail ? `<span>${rhiUxEscape(detail)}</span>` : ""}</div>${target ? `<button type="button" data-nav="${rhiUxEscape(target)}">Open</button>` : ""}</div>`;
+}
+
+function rhiUxAssetDisclosure({ title = "Details", content = "", open = false } = {}) {
+  return `<details class="rhiUxAssetDisclosure"${open ? " open" : ""}><summary>${rhiUxEscape(title)}</summary><div>${content}</div></details>`;
+}
+
+function rhiUxWriteFeedback({ state = "idle", message = "" } = {}) {
+  if (!message) return "";
+  return `<div class="rhiUxWriteFeedback" data-state="${rhiUxEscape(state)}" role="status">${rhiUxEscape(message)}</div>`;
+}
+
+
 
 
 const RHI_UX_NAVIGATION_STORAGE_KEY = "rhi.navigation.registry.v1";
