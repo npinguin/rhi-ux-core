@@ -1,6 +1,6 @@
-// RHI UX Core 1.6.2 — build-time presentation primitives only.
+// RHI UX Core 1.6.3 — build-time presentation primitives only.
 // No domain semantics or Home Assistant contract/entity knowledge belongs here.
-const RHI_UX_CORE_VERSION = "1.6.2";
+const RHI_UX_CORE_VERSION = "1.6.3";
 const RHI_UX_COMPANY_LOGO_SVG = "__RHI_UX_COMPANY_LOGO_INLINE__";
 
 function rhiUxEscape(value) {
@@ -30,7 +30,7 @@ function rhiUxTranslate(resources = {}, key = "", { locale = "en", params = {}, 
     }
   }
   if (!template) template = fallback || wanted;
-  return template.replace(/\{([a-zA-Z0-9_]+)\}/g, (_, name) => rhiUxDisplay(params?.[name], ""));
+  return template.replace(/\{([a-zA-Z0-9_]+)\}/g, (_, name) => rhiUxEscape(rhiUxDisplay(params?.[name], "")));
 }
 
 function rhiUxFormatNumber(value, { locale = "en", maximumFractionDigits = 2, minimumFractionDigits = 0 } = {}) {

@@ -1,6 +1,6 @@
 {
   "name": "@robotix/rhi-ux-core",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "Shared build-time UX foundation for Robotix Home Intelligence domain frontends",
   "license": "GPL-3.0-only",
   "private": false,
