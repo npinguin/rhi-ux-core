@@ -123,6 +123,8 @@ const resources={
 if(context.rhiUxTranslate(resources,"action.save",{locale:"nl-BE"})!=="Opslaan") throw new Error("nl-BE locale fallback failed");
 if(context.rhiUxTranslate(resources,"state.offline",{locale:"fr-BE"})!=="The device is offline") throw new Error("English translation fallback failed");
 if(context.rhiUxTranslate(resources,"missing.key",{locale:"nl-BE",fallback:"Missing"})!=="Missing") throw new Error("translation fallback text failed");
+const interpolationResources={en:{"hello":"Hello {name}"},nl:{"hello":"Hallo {name}"},fr:{"hello":"Bonjour {name}"}};
+if(context.rhiUxTranslate(interpolationResources,"hello",{locale:"en",params:{name:"<Admin>"}})!=="Hello &lt;Admin&gt;") throw new Error("translation interpolation must be HTML-safe");
 if(context.rhiUxFormatNumber(null,{locale:"nl-BE"})!=="—") throw new Error("locale formatter must preserve missing");
 if(context.rhiUxFormatNumber(0,{locale:"nl-BE"})==="—") throw new Error("locale formatter must preserve zero");
 console.log("PASS shared EN/NL/FR localization and locale formatting foundation");
