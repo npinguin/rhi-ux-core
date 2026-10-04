@@ -111,12 +111,13 @@ function rhiUxQuickActionBar({ label = "Quick actions", actions = [] } = {}) {
 function rhiUxContextBar({ label = "View", controls = [], controlsId = "" } = {}) {
   if (!Array.isArray(controls) || controls.length === 0) return "";
   const labelled = label ? `<small>${rhiUxEscape(label)}</small>` : "";
-  const body = controls.map((control,index) => {
+  const body = controls.filter(control => control?.visible !== false).map((control,index) => {
     const attrs = [];
     if (control.value !== undefined) attrs.push(`data-value="${rhiUxEscape(control.value)}"`);
     if (control.target) attrs.push(`data-nav="${rhiUxEscape(control.target)}"`);
     if (control.pressed !== undefined) attrs.push(`aria-pressed="${control.pressed ? "true" : "false"}"`);
-    if (control.disabled) attrs.push("disabled");
+    if (control.enabled === false || control.disabled) attrs.push("disabled");
+    if (control.reason) attrs.push(`title="${rhiUxEscape(control.reason)}"`);
     const cls = `rhiUxContextControl${control.active || control.pressed ? " active" : ""}`;
     return `<button type="button" class="${cls}" ${attrs.join(" ")}>${rhiUxEscape(control.label || control.value || `Option ${index+1}`)}</button>`;
   }).join("");
