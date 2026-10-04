@@ -1,4 +1,4 @@
-/* RHI UX Core 1.6.0 */
+/* RHI UX Core 1.6.1 */
 :host,.rhi-ux-root{
   --rhi-color-primary:#1467F5;
   --rhi-color-primary-soft:#EAF3FF;
@@ -21,7 +21,9 @@
   --rhi-font-card:15px;
   --rhi-font-body:12.5px;
   --rhi-font-small:11px;
-  --rhi-font-label:10px;
+  --rhi-font-label:10.5px;
+  --rhi-font-value:13px;
+  --rhi-font-diagnostic:10px;
   --rhi-weight-regular:400;
   --rhi-weight-medium:500;
   --rhi-weight-strong:600;
@@ -247,6 +249,11 @@
 /* Canonical page and asset composition primitives. */
 .rhiUxPage{display:block;width:100%;max-width:var(--rhi-page-max);margin:0 auto;padding:var(--rhi-page-pad-y) var(--rhi-page-pad-x);box-sizing:border-box}
 .rhiUxPageContent{display:grid;gap:var(--rhi-space-3);margin-top:var(--rhi-space-3)}
+.rhiUxAssetCardShell{display:grid;gap:var(--rhi-space-3);min-width:0;padding:12px;border:1px solid var(--rhi-color-line);border-radius:var(--rhi-radius-lg);background:var(--rhi-color-surface);box-shadow:var(--rhi-shadow-sm)}
+.rhiUxAssetCardIdentity,.rhiUxAssetCardFacts,.rhiUxAssetCardRelationships,.rhiUxAssetCardActions,.rhiUxAssetCardDetails,.rhiUxAssetCardFeedback{min-width:0}
+.rhiUxAssetCardRelationships{display:grid;gap:var(--rhi-space-2)}
+.rhiUxAssetCardActions{display:flex;align-items:center;gap:var(--rhi-space-2);flex-wrap:wrap}
+.rhiUxAssetCardDetails:empty,.rhiUxAssetCardFeedback:empty{display:none}
 .rhiUxAssetIdentity{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;min-width:0}
 .rhiUxAssetVisual{width:72px;height:58px;display:grid;place-items:center;overflow:hidden}
 .rhiUxAssetVisual img{display:block;width:100%;height:100%;object-fit:contain}
@@ -261,4 +268,5 @@
 .rhiUxAssetDisclosure{border-top:1px solid var(--rhi-color-line-soft);padding-top:8px}.rhiUxAssetDisclosure summary{cursor:pointer;font-weight:var(--rhi-weight-medium)}
 .rhiUxAssetDisclosure>div{padding-top:8px}
 .rhiUxWriteFeedback{margin-top:6px;font-size:var(--rhi-font-small);color:var(--rhi-color-muted)}.rhiUxWriteFeedback[data-state="success"]{color:#15803D}.rhiUxWriteFeedback[data-state="error"]{color:var(--rhi-color-error)}
-@media(max-width:760px){.rhiUxAssetFactGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.rhiUxAssetCardShell{padding:10px}.rhiUxAssetFactGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:430px){.rhiUxAssetCardShell{gap:var(--rhi-space-2);padding:9px}.rhiUxAssetFactGrid{grid-template-columns:1fr 1fr}}
