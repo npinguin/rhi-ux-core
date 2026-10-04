@@ -123,6 +123,19 @@ function rhiUxPageTemplate({ hero = "", status = "", actions = "", context = "",
   return `<main class="rhiUxPage rhiUxPageStack ${rhiUxEscape(className)}">${hero}${status}${actions}${context}<section class="rhiUxPageContent">${content}</section></main>`;
 }
 
+function rhiUxAssetCardShell({ identity = "", facts = "", relationships = "", actions = "", details = "", feedback = "", className = "" } = {}) {
+  const cls = ["rhiUxAssetCardShell", String(className || "").trim()].filter(Boolean).join(" ");
+  const body = [
+    identity ? `<div class="rhiUxAssetCardIdentity">${identity}</div>` : "",
+    facts ? `<div class="rhiUxAssetCardFacts">${facts}</div>` : "",
+    relationships ? `<div class="rhiUxAssetCardRelationships">${relationships}</div>` : "",
+    actions ? `<div class="rhiUxAssetCardActions">${actions}</div>` : "",
+    details ? `<div class="rhiUxAssetCardDetails">${details}</div>` : "",
+    feedback ? `<div class="rhiUxAssetCardFeedback">${feedback}</div>` : ""
+  ].join("");
+  return `<article class="${rhiUxEscape(cls)}">${body}</article>`;
+}
+
 function rhiUxAssetIdentity({ eyebrow = "", title = "", subtitle = "", visual = "" } = {}) {
   return `<header class="rhiUxAssetIdentity">${visual ? `<div class="rhiUxAssetVisual">${visual}</div>` : ""}<div class="rhiUxAssetIdentityCopy">${eyebrow ? `<small>${rhiUxEscape(eyebrow)}</small>` : ""}<h2>${rhiUxEscape(title)}</h2>${subtitle ? `<p>${rhiUxEscape(subtitle)}</p>` : ""}</div></header>`;
 }
