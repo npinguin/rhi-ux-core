@@ -99,7 +99,13 @@ function rhiUxDomainShell({ product = "Home Intelligence", domain = "", modules 
 
 
 function rhiUxQuickActionBar({ label = "Quick actions", actions = [] } = {}) {
-  return `<section class="rhiUxQuickActionBar" aria-label="${rhiUxEscape(label)}"><small>${rhiUxEscape(label)}</small><div class="rhiUxQuickActions">${actions.map((action,index) => `<button type="button" class="rhiUxQuickAction${action.primary || index === 0 ? " primary" : ""}"${action.target ? ` data-nav="${rhiUxEscape(action.target)}"` : ""}${action.disabled ? " disabled" : ""}>${action.icon ? `<ha-icon icon="${rhiUxEscape(action.icon)}"></ha-icon>` : ""}<span>${rhiUxEscape(action.label || "Open")}</span></button>`).join("")}</div></section>`;
+  const visibleActions = actions.filter(action => action?.visible !== false);
+  if (!visibleActions.length) return "";
+  return `<section class="rhiUxQuickActionBar" aria-label="${rhiUxEscape(label)}"><small>${rhiUxEscape(label)}</small><div class="rhiUxQuickActions">${visibleActions.map((action,index) => {
+    const disabled = action.enabled === false || action.disabled === true;
+    const reason = String(action.reason || "");
+    return `<button type="button" class="rhiUxQuickAction${action.primary || index === 0 ? " primary" : ""}"${action.target ? ` data-nav="${rhiUxEscape(action.target)}"` : ""}${disabled ? " disabled" : ""}${reason ? ` title="${rhiUxEscape(reason)}"` : ""}>${action.icon ? `<ha-icon icon="${rhiUxEscape(action.icon)}"></ha-icon>` : ""}<span>${rhiUxEscape(action.label || "Open")}</span></button>`;
+  }).join("")}</div></section>`;
 }
 
 function rhiUxContextBar({ label = "View", controls = [], controlsId = "" } = {}) {
