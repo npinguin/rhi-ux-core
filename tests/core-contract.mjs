@@ -43,6 +43,16 @@ const actions=context.rhiUxQuickActionBar({actions:[{label:"Overview",target:"/o
 if(!actions.includes("rhiUxQuickAction primary") || !actions.includes('data-nav="/overview"')) throw new Error("canonical quick action bar failed");
 console.log("PASS unified hero/status/actions/body contract");
 
+const accessActions=context.rhiUxQuickActionBar({actions:[
+  {label:"Hidden",visible:false},
+  {label:"Disabled",enabled:false,reason:"Not allowed"},
+  {label:"Open",enabled:true}
+]});
+if(accessActions.includes("Hidden")) throw new Error("hidden action leaked into shared presentation");
+if(!accessActions.includes("disabled") || !accessActions.includes('title="Not allowed"')) throw new Error("disabled-with-reason action state missing");
+console.log("PASS neutral access-aware action grammar");
+
+
 if(!css.includes(".rhiUxPageStack>.rhiUxPageHero{order:1}")) throw new Error("page hero order invariant missing");
 if(!css.includes(".rhiUxPageStack>.rhiUxStatusGrid{order:2}")) throw new Error("page status order invariant missing");
 if(!css.includes(".rhiUxPageStack>.rhiUxQuickActionBar{order:3}")) throw new Error("page quick-action order invariant missing");
@@ -52,6 +62,15 @@ if(noContext!=="") throw new Error("empty context controls must not render chrom
 const contextBar=context.rhiUxContextBar({label:"Period",controls:[{label:"Today",value:"D0",active:true},{label:"Tomorrow",value:"D1"}],controlsId:"planning-body"});
 if(!contextBar.includes("rhiUxContextBar") || !contextBar.includes('aria-controls="planning-body"') || !contextBar.includes("rhiUxContextControl active")) throw new Error("body-scoped context controls primitive failed");
 console.log("PASS optional body-scoped context controls");
+
+const accessContext=context.rhiUxContextBar({controls:[
+  {label:"Hidden",visible:false},
+  {label:"Locked",enabled:false,reason:"Configuration access required"}
+]});
+if(accessContext.includes("Hidden")) throw new Error("hidden context control leaked");
+if(!accessContext.includes("disabled") || !accessContext.includes("Configuration access required")) throw new Error("context access reason missing");
+console.log("PASS access-aware context grammar");
+
 
 
 const memoryStore = (() => {
@@ -123,3 +142,6 @@ if(!css.includes("--rhi-font-label:10.5px")) throw new Error("product label typo
 if(!css.includes("--rhi-font-small:11px")) throw new Error("secondary product typography must remain at least 11px");
 if(!css.includes("--rhi-font-body:12.5px")) throw new Error("body typography guardrail drifted");
 if(!css.includes("--rhi-font-value:13px")) throw new Error("primary value typography token missing");
+if(/\.rhiUxVisualChoiceCopy small\{font-size:(?:8|9|10)px/.test(css)) throw new Error("appearance picker label text fell below product minimum");
+if(/\.rhiUxVisualPickerRefine label span\{display:block;font-size:(?:8|9|10)px/.test(css)) throw new Error("appearance picker refine text fell below product minimum");
+console.log("PASS product typography minimums across shared picker and primitives");
