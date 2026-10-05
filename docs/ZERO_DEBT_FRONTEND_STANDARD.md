@@ -36,9 +36,12 @@ Core owns presentation mechanics only. It never owns Energy or Mobility facts, p
    - The gap is fixed in the natural owning backend/domain.
    - Unknown, unavailable, not configured and unsupported remain distinct.
 
-3. **One projection boundary.**
-   - Backend aliases and transport shape are normalized once.
-   - Screens consume presentation models and must not repeat property probing, relationship inference or semantic calculations.
+3. **One V2 ingress and one projection boundary.**
+   - Every domain/producer exposes one canonical product V2 ingress for a consuming UX package.
+   - Backend aliases and transport shape are normalized once behind the domain runtime gateway.
+   - Screens consume presentation models and must not read Home Assistant state registries, discover contract entities, or inspect raw public-contract attributes themselves.
+   - Cross-domain UX reads must use the producer-owned canonical V2 contract; old per-capability/index entities are forbidden even when they still exist for compatibility or diagnostics.
+   - If the canonical V2 contract does not publish required evidence, the UX fails closed and records a backend contract gap. It must never recover the value from an older public index.
 
 4. **Normal UX is human language.**
    - No contract names, entity IDs, property keys, operation IDs, raw reason codes or technical implementation wording in normal product surfaces.
@@ -94,6 +97,9 @@ The normal user should not need to understand Home Assistant or RHI contract mec
 A domain release is not transferable until it can prove:
 
 - zero V1 product/runtime dependencies;
+- exactly one canonical V2 product ingress per consumed domain/producer;
+- zero screen-level Home Assistant state/contract discovery;
+- zero cross-domain fallback to old per-capability/index entities;
 - zero accepted technical debt;
 - zero accepted feature debt;
 - no shared Core-selector redefinition;
