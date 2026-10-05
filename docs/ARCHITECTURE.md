@@ -16,6 +16,9 @@ RHI UX Core is the shared **presentation foundation** for RHI domain frontends. 
 
 ## Hard rules
 
+The transversal zero-debt/V2-only consumer standard is normative in `docs/ZERO_DEBT_FRONTEND_STANDARD.md`.
+
+
 1. Core has no Home Assistant entity IDs, contract IDs or domain facts.
 2. Core may display values supplied by a domain, but may not infer their meaning.
 3. Missing values render as unavailable; Core never converts missing values to zero.
@@ -24,7 +27,7 @@ RHI UX Core is the shared **presentation foundation** for RHI domain frontends. 
 6. Shared component changes are versioned in Core and adopted explicitly by consumers.
 7. Git history stores old visual implementations; production stylesheets do not carry version-specific override sediment.
 
-## Public v1 primitives
+## Current public primitives
 
 - rhiUxDomainShell
 - rhiUxPageHero
