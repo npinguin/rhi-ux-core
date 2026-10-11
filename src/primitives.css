@@ -223,11 +223,11 @@
   border-radius:var(--rhi-radius-sm);background:var(--rhi-color-surface-soft);overflow:hidden;
 }
 .rhiUxAssetImage img{display:block;width:100%;height:100%;object-fit:contain}
-.rhiUxAssetIdentity{display:grid;gap:3px;min-width:0}
+.rhiUxAssetRowIdentity{display:grid;gap:3px;min-width:0}
 .rhiUxAssetName{font-weight:var(--rhi-weight-strong);overflow-wrap:anywhere}
-.rhiUxAssetContext,.rhiUxAssetRelationship{font-size:var(--rhi-font-small);color:var(--rhi-color-muted);line-height:1.25}
-.rhiUxAssetRelationship a{color:var(--rhi-color-primary);text-decoration:underline;text-underline-offset:2px}
-.rhiUxAssetRelationship a:focus-visible{outline:2px solid var(--rhi-color-primary);outline-offset:3px}
+.rhiUxAssetContext,.rhiUxAssetRowRelationship{font-size:var(--rhi-font-small);color:var(--rhi-color-muted);line-height:1.25}
+.rhiUxAssetRowRelationship .rhiUxAssetRelationshipLink{color:var(--rhi-color-primary);text-decoration:underline;text-underline-offset:2px}
+.rhiUxAssetRowRelationship .rhiUxAssetRelationshipLink:focus-visible{outline:2px solid var(--rhi-color-primary);outline-offset:3px}
 .rhiUxAssetLive{display:grid;justify-items:end;gap:3px;text-align:right;min-width:76px}
 .rhiUxAssetPower{font-size:var(--rhi-font-card);font-weight:var(--rhi-weight-strong);font-variant-numeric:tabular-nums;white-space:nowrap}
 .rhiUxAssetState{font-size:var(--rhi-font-small);color:var(--rhi-color-muted)}
