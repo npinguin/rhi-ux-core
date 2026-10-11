@@ -141,7 +141,7 @@ function rhiUxCompactAssetRow({
     : (relationshipLabel ? `<span>${rhiUxEscape(relationshipLabel)}</span>` : "");
   return `<div class="rhiUxAssetRow">
     <div class="rhiUxAssetImage">${visualHtml}</div>
-    <div class="rhiUxAssetIdentity"><strong class="rhiUxAssetName">${rhiUxEscape(name)}</strong>${context ? `<span class="rhiUxAssetContext">${rhiUxEscape(context)}</span>` : ""}${link ? `<div class="rhiUxAssetRelationship">${link}</div>` : ""}</div>
+    <div class="rhiUxAssetRowIdentity"><strong class="rhiUxAssetName">${rhiUxEscape(name)}</strong>${context ? `<span class="rhiUxAssetContext">${rhiUxEscape(context)}</span>` : ""}${link ? `<div class="rhiUxAssetRowRelationship">${link}</div>` : ""}</div>
     <div class="rhiUxAssetLive"><strong class="rhiUxAssetPower">${rhiUxEscape(rhiUxDisplay(power))}</strong>${state ? `<span class="rhiUxAssetState">${rhiUxEscape(state)}</span>` : ""}</div>
     ${disclosureHtml ? `<div class="rhiUxAssetExpand">${disclosureHtml}</div>` : ""}
   </div>`;
