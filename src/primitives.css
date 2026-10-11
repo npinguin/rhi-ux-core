@@ -208,3 +208,32 @@
 .rhiUxWriteFeedback{margin-top:6px;font-size:var(--rhi-font-small);color:var(--rhi-color-muted)}.rhiUxWriteFeedback[data-state="success"]{color:#15803D}.rhiUxWriteFeedback[data-state="error"]{color:var(--rhi-color-error)}
 @media(max-width:760px){.rhiUxAssetCardShell{padding:10px}.rhiUxAssetFactGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:430px){.rhiUxAssetCardShell{gap:var(--rhi-space-2);padding:9px}.rhiUxAssetFactGrid{grid-template-columns:1fr 1fr}}
+
+
+/* Compact asset grammar. Opt-in: existing page heroes, navigation and panels are unchanged.
+   Domains own asset facts and relationships; Core only lays out their presentation. */
+.rhiUxAssetRow{
+  display:grid;grid-template-columns:52px minmax(0,1fr) minmax(76px,max-content) auto;
+  align-items:center;gap:10px;min-width:0;padding:8px 10px;
+  border-bottom:1px solid var(--rhi-color-line-soft);
+}
+.rhiUxAssetRow:last-child{border-bottom:0}
+.rhiUxAssetImage{
+  display:flex;align-items:center;justify-content:center;width:52px;height:52px;
+  border-radius:var(--rhi-radius-sm);background:var(--rhi-color-surface-soft);overflow:hidden;
+}
+.rhiUxAssetImage img{display:block;width:100%;height:100%;object-fit:contain}
+.rhiUxAssetIdentity{display:grid;gap:3px;min-width:0}
+.rhiUxAssetName{font-weight:var(--rhi-weight-strong);overflow-wrap:anywhere}
+.rhiUxAssetContext,.rhiUxAssetRelationship{font-size:var(--rhi-font-small);color:var(--rhi-color-muted);line-height:1.25}
+.rhiUxAssetRelationship a{color:var(--rhi-color-primary);text-decoration:underline;text-underline-offset:2px}
+.rhiUxAssetRelationship a:focus-visible{outline:2px solid var(--rhi-color-primary);outline-offset:3px}
+.rhiUxAssetLive{display:grid;justify-items:end;gap:3px;text-align:right;min-width:76px}
+.rhiUxAssetPower{font-size:var(--rhi-font-card);font-weight:var(--rhi-weight-strong);font-variant-numeric:tabular-nums;white-space:nowrap}
+.rhiUxAssetState{font-size:var(--rhi-font-small);color:var(--rhi-color-muted)}
+.rhiUxAssetExpand{display:flex;align-items:center;justify-content:center;min-width:32px;min-height:36px}
+@media(max-width:430px){
+  .rhiUxAssetRow{grid-template-columns:42px minmax(0,1fr) minmax(64px,max-content) auto;gap:7px;padding:7px 5px}
+  .rhiUxAssetImage{width:42px;height:42px}
+  .rhiUxAssetLive{min-width:64px}
+}
