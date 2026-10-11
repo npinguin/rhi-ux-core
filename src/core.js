@@ -1,6 +1,6 @@
 // RHI UX Core 1.6.3 — build-time presentation primitives only.
 // No domain semantics or Home Assistant contract/entity knowledge belongs here.
-const RHI_UX_CORE_VERSION = "1.6.3";
+const RHI_UX_CORE_VERSION = "1.6.4";
 const RHI_UX_COMPANY_LOGO_SVG = "__RHI_UX_COMPANY_LOGO_INLINE__";
 
 function rhiUxEscape(value) {
@@ -128,6 +128,23 @@ function rhiUxContextBar({ label = "View", controls = [], controlsId = "" } = {}
 
 function rhiUxPageTemplate({ hero = "", status = "", actions = "", context = "", content = "", className = "" } = {}) {
   return `<main class="rhiUxPage rhiUxPageStack ${rhiUxEscape(className)}">${hero}${status}${actions}${context}<section class="rhiUxPageContent">${content}</section></main>`;
+}
+
+
+/* Shared presentation only. Domain adapters supply the factual values and safe actions. */
+function rhiUxCompactAssetRow({
+  name = "", visualHtml = "", context = "", power = "—", state = "",
+  relationshipLabel = "", relationshipTarget = "", disclosureHtml = ""
+} = {}) {
+  const link = relationshipLabel && relationshipTarget
+    ? `<button type="button" class="rhiUxAssetRelationshipLink" data-nav="${rhiUxEscape(relationshipTarget)}">${rhiUxEscape(relationshipLabel)}</button>`
+    : (relationshipLabel ? `<span>${rhiUxEscape(relationshipLabel)}</span>` : "");
+  return `<div class="rhiUxAssetRow">
+    <div class="rhiUxAssetImage">${visualHtml}</div>
+    <div class="rhiUxAssetRowIdentity"><strong class="rhiUxAssetName">${rhiUxEscape(name)}</strong>${context ? `<span class="rhiUxAssetContext">${rhiUxEscape(context)}</span>` : ""}${link ? `<div class="rhiUxAssetRowRelationship">${link}</div>` : ""}</div>
+    <div class="rhiUxAssetLive"><strong class="rhiUxAssetPower">${rhiUxEscape(rhiUxDisplay(power))}</strong>${state ? `<span class="rhiUxAssetState">${rhiUxEscape(state)}</span>` : ""}</div>
+    ${disclosureHtml ? `<div class="rhiUxAssetExpand">${disclosureHtml}</div>` : ""}
+  </div>`;
 }
 
 function rhiUxAssetCardShell({ identity = "", facts = "", relationships = "", actions = "", details = "", feedback = "", className = "" } = {}) {

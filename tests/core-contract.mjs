@@ -135,6 +135,11 @@ const card=context.rhiUxAssetCardShell({identity:"<header>Asset</header>",facts:
 if(!card.includes('class="rhiUxAssetCardShell domainAccent"') || !card.includes("rhiUxAssetCardActions") || !card.includes("rhiUxAssetCardDetails")) throw new Error("shared asset card shell failed");
 const facts=context.rhiUxAssetFactGrid([{label:"Battery",value:72,detail:"%"}]);
 if(!facts.includes("rhiUxAssetFact") || !facts.includes(">72<")) throw new Error("shared asset fact grammar failed");
+const compact=context.rhiUxCompactAssetRow({name:"EV <1>",power:"0.0 kW",state:"Idle",context:"0.0 kWh measured",relationshipLabel:"Assigned charger",relationshipTarget:"/mobility?asset=a%20b"});
+if(!compact.includes("EV &lt;1&gt;") || !compact.includes("0.0 kW") || !compact.includes('data-nav="/mobility?asset=a%20b"')) throw new Error("compact row failed to preserve source values and navigation");
+const noLink=context.rhiUxCompactAssetRow({name:"Battery",power:null,relationshipLabel:"Unresolved charger"});
+if(noLink.includes("data-nav") || !noLink.includes("—")) throw new Error("compact row must fail closed without link/value");
+console.log("PASS compact asset row escape, measured-zero and optional relationships");
 console.log("PASS canonical page and asset composition primitives");
 
 if(!css.includes("height:146px;min-height:146px")) throw new Error("desktop hero must use compact canonical geometry");
