@@ -237,3 +237,12 @@
   .rhiUxAssetImage{width:42px;height:42px}
   .rhiUxAssetLive{min-width:64px}
 }
+
+/* Opt-in time-series presentation: preserve domain-owned data, periods and charts. */
+.rhiUxChartPanel{min-width:0;padding:12px;border:1px solid var(--rhi-color-line);border-radius:var(--rhi-radius-lg);background:var(--rhi-color-surface)}
+.rhiUxChartHeader{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.rhiUxChartLegend{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;font-size:var(--rhi-font-small);color:var(--rhi-color-muted)}
+.rhiUxChartViewport{width:100%;min-width:0;overflow-x:auto}
+.rhiUxChartViewport svg,.rhiUxChartViewport canvas{display:block;max-width:100%}
+.rhiUxChartEmpty{padding:20px 12px;text-align:center;color:var(--rhi-color-muted);font-size:var(--rhi-font-small)}
+@media(max-width:760px){.rhiUxChartPanel{padding:9px}.rhiUxChartHeader{align-items:flex-start}}
