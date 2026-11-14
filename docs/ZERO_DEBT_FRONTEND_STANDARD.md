@@ -2,14 +2,14 @@
 
 ## Purpose
 
-This document is the normative transversal frontend handover for Robotix Home Intelligence domain UX packages.
+This document owns the transversal frontend rules for Robotix Home Intelligence. Product packaging, canonical native interfaces, contract retirement and release policy follow the central [RHI Repository & Pipeline Contract](https://github.com/npinguin/robotix-home-intelligence/blob/main/standards/RHI_REPOSITORY_PIPELINE_CONTRACT.md).
 
 The goal is not another abstraction layer. The goal is one clear change boundary between backend truth and user experience so a semantic change is mapped once and does not require repairing multiple independent UX flows.
 
 ## Architecture
 
 ```text
-Domain backend public V2 contracts
+Current canonical domain backend interfaces
         ↓
 one domain runtime gateway
         ↓
@@ -26,22 +26,20 @@ Core owns presentation mechanics only. It never owns Energy or Mobility facts, p
 
 ## Non-negotiable rules
 
-1. **V1 product/runtime interfaces are decommissioned.**
-   - No V1 authority, fallback or compatibility read may exist in current domain `src/` or generated `dist/`.
-   - Historical V1 names may remain only in archive/history or negative tests proving rejection.
-   - A newer V2 surface may not silently fall back to V1 when data is absent.
+1. **UX follows the current canonical backend interface.**
+   - For an integrated product, frontend and backend are changed, tested and released from the same source candidate. No independent same-product backend compatibility matrix or version-selection adapter.
+   - A backend interface change includes all affected UX consumers and producer/consumer tests in the change boundary. Missing semantics are fixed by the owning backend, not reconstructed by UX.
+   - Retire established-domain public V1 interfaces and superseded aggregate Public V2/V3 paths according to the central migration standard. Their presence is a migration gap, not permission for permanent fallback. First-generation input/internal schema version labels are not legacy by definition.
+   - Cross-domain producers remain independently deployable; use their current supported canonical public interface, validate explicit compatibility, and fail closed on absence or incompatibility. Do not force lockstep upgrades or guess a fallback.
 
 2. **Backend truth is not reconstructed in UX.**
-   - If required meaning cannot be mapped deterministically from V2, the domain UX records a backend gap.
-   - The gap is fixed in the natural owning backend/domain.
+   - If required meaning cannot be mapped deterministically from the current canonical backend interface, record an owning backend gap.
    - Unknown, unavailable, not configured and unsupported remain distinct.
 
-3. **One V2 ingress and one projection boundary.**
-   - Every domain/producer exposes one canonical product V2 ingress for a consuming UX package.
-   - Backend aliases and transport shape are normalized once behind the domain runtime gateway.
-   - Screens consume presentation models and must not read Home Assistant state registries, discover contract entities, or inspect raw public-contract attributes themselves.
-   - Cross-domain UX reads must use the producer-owned canonical V2 contract; old per-capability/index entities are forbidden even when they still exist for compatibility or diagnostics.
-   - If the canonical V2 contract does not publish required evidence, the UX fails closed and records a backend contract gap. It must never recover the value from an older public index.
+3. **One canonical access boundary per producer.**
+   - Use native canonical HA devices/entities, domain-owned properties and authorized commands, and bounded backend-owned queries where necessary.
+   - A thin gateway/projection maps backend presentation once for domain screens. No screen-level discovery, alternative transport or reconstructed semantic snapshot.
+   - Do not introduce a new aggregate contract just for UX. No fallback to superseded interfaces.
 
 4. **Normal UX is human language.**
    - No contract names, entity IDs, property keys, operation IDs, raw reason codes or technical implementation wording in normal product surfaces.
@@ -84,7 +82,7 @@ The normal user should not need to understand Home Assistant or RHI contract mec
 | --- | --- |
 | Technical evidence / platform capabilities | Foundation or owning producer backend |
 | Domain facts and semantics | Domain backend |
-| Cross-domain fact | Producer public V2 contract |
+| Cross-domain fact | Producer current canonical interface |
 | Domain projection | Domain UX |
 | Domain product wording | Domain UX localization resources |
 | Shared localization mechanics / formatting | RHI UX Core |
@@ -96,10 +94,11 @@ The normal user should not need to understand Home Assistant or RHI contract mec
 
 A domain release is not transferable until it can prove:
 
-- zero V1 product/runtime dependencies;
-- exactly one canonical V2 product ingress per consumed domain/producer;
+- zero retired public interface dependencies and completion of established-domain public V1 retirement;
+- one canonical access boundary per consumed producer, tested against the actual current backend candidate;
+- no separate same-product UX compatibility lane in integrated packages;
 - zero screen-level Home Assistant state/contract discovery;
-- zero cross-domain fallback to old per-capability/index entities;
+- zero fallback to superseded cross-domain publications or indexes;
 - zero accepted technical debt;
 - zero accepted feature debt;
 - no shared Core-selector redefinition;
