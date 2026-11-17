@@ -1,6 +1,6 @@
-// RHI UX Core 1.6.3 — build-time presentation primitives only.
+// RHI UX Core 1.6.5 — build-time presentation primitives only.
 // No domain semantics or Home Assistant contract/entity knowledge belongs here.
-const RHI_UX_CORE_VERSION = "1.6.4";
+const RHI_UX_CORE_VERSION = "1.6.5";
 const RHI_UX_COMPANY_LOGO_SVG = "__RHI_UX_COMPANY_LOGO_INLINE__";
 
 function rhiUxEscape(value) {
@@ -172,8 +172,9 @@ function rhiUxAssetRelationship({ label = "", value = "", detail = "", target = 
   return `<div class="rhiUxAssetRelationship"><div><small>${rhiUxEscape(label)}</small><b>${rhiUxEscape(rhiUxDisplay(value))}</b>${detail ? `<span>${rhiUxEscape(detail)}</span>` : ""}</div>${target ? `<button type="button" data-nav="${rhiUxEscape(target)}">Open</button>` : ""}</div>`;
 }
 
-function rhiUxAssetDisclosure({ title = "Details", content = "", open = false } = {}) {
-  return `<details class="rhiUxAssetDisclosure"${open ? " open" : ""}><summary>${rhiUxEscape(title)}</summary><div>${content}</div></details>`;
+function rhiUxAssetDisclosure({ title = "Details", summary = "", content = "", open = false } = {}) {
+  const detail = summary === undefined || summary === null || summary === "" ? "" : ` · ${rhiUxEscape(summary)}`;
+  return `<details class="rhiUxAssetDisclosure"${open ? " open" : ""}><summary>${rhiUxEscape(title)}${detail}</summary><div>${content}</div></details>`;
 }
 
 function rhiUxWriteFeedback({ state = "idle", message = "" } = {}) {
