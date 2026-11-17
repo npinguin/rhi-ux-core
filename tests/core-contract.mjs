@@ -162,3 +162,12 @@ if(context.rhiUxQuickActionBar({actions:[]})!=="" || context.rhiUxQuickActionBar
 const compactPage=context.rhiUxPageTemplate({status:"<span>status</span>",actions:"<button>action</button>",content:"<details>detail</details>"});
 if(compactPage.includes("rhiUxPageHero") || compactPage.indexOf("<span>status</span>")>=compactPage.indexOf("<button>action</button>") || compactPage.indexOf("<button>action</button>")>=compactPage.indexOf("<details>detail</details>")) throw new Error("compact page must preserve status/action/details without mandatory hero");
 console.log("PASS compact default disclosure, optional chrome and action-first composition");
+
+// Preserve the agreed composition reference as design evidence, not rendered HA proof.
+const uxReference=fs.readFileSync("docs/household-perspectives-reference.svg","utf8");
+const uxStandard=fs.readFileSync("docs/ZERO_DEBT_FRONTEND_STANDARD.md","utf8");
+if(!uxStandard.includes("(household-perspectives-reference.svg)") || !uxStandard.includes("not an approved HA pixel baseline")) throw new Error("household composition reference or qualification boundary lost");
+for(const id of ["perspectives","view-navigation","household-summary","domain-rows"]){if(!uxReference.includes('id="'+id+'"')) throw new Error("missing household reference section: "+id);}
+const referenceDomains=["security","comfort","climate","energy","mobility","wellness","multimedia","appliances","infrastructure"];
+let previous=-1;for(const domain of referenceDomains){const next=uxReference.indexOf('id="domain-'+domain+'"');if(next<=previous)throw new Error("reference domain row order/identity drift: "+domain);previous=next;}
+console.log("PASS retained household composition reference (design evidence only)");
