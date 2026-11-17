@@ -158,6 +158,10 @@ const folded=context.rhiUxAssetDisclosure({title:"Details",content:"<p>Source ev
 const opened=context.rhiUxAssetDisclosure({title:"Details",content:"<p>Source evidence</p>",open:true});
 if(!folded.includes('<details class="rhiUxAssetDisclosure">') || !folded.includes("<summary>Details</summary>") || !folded.includes("Source evidence")) throw new Error("default closed details must retain meaningful summary and content");
 if(!opened.includes('<details class="rhiUxAssetDisclosure" open>')) throw new Error("explicit disclosure expansion lost");
+const summaryFold=context.rhiUxAssetDisclosure({title:"Group <1>",summary:"0 · <Attention>",content:"<p>Details</p>"});
+if(!summaryFold.includes("<summary>Group &lt;1&gt; · 0 · &lt;Attention&gt;</summary>") || summaryFold.includes(' open>')) throw new Error("collapsed group must show escaped meaningful status without opening");
+if(!context.rhiUxAssetDisclosure({title:"Group",summary:0}).includes("<summary>Group · 0</summary>")) throw new Error("zero summary lost");
+for(const summary of [null,undefined,""]) if(!context.rhiUxAssetDisclosure({title:"Group",summary}).includes("<summary>Group</summary>")) throw new Error("missing summary must not add blank chrome");
 if(context.rhiUxQuickActionBar({actions:[]})!=="" || context.rhiUxQuickActionBar({actions:[{label:"Hidden",visible:false}]})!=="") throw new Error("empty action bars must not render chrome");
 const compactPage=context.rhiUxPageTemplate({status:"<span>status</span>",actions:"<button>action</button>",content:"<details>detail</details>"});
 if(compactPage.includes("rhiUxPageHero") || compactPage.indexOf("<span>status</span>")>=compactPage.indexOf("<button>action</button>") || compactPage.indexOf("<button>action</button>")>=compactPage.indexOf("<details>detail</details>")) throw new Error("compact page must preserve status/action/details without mandatory hero");
