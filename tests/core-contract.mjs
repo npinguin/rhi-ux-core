@@ -152,3 +152,13 @@ if(!css.includes("--rhi-font-value:13px")) throw new Error("primary value typogr
 if(/\.rhiUxVisualChoiceCopy small\{font-size:(?:8|9|10)px/.test(css)) throw new Error("appearance picker label text fell below product minimum");
 if(/\.rhiUxVisualPickerRefine label span\{display:block;font-size:(?:8|9|10)px/.test(css)) throw new Error("appearance picker refine text fell below product minimum");
 console.log("PASS product typography minimums across shared picker and primitives");
+
+// Existing presentation primitives: compact default disclosure and optional chrome.
+const folded=context.rhiUxAssetDisclosure({title:"Details",content:"<p>Source evidence</p>"});
+const opened=context.rhiUxAssetDisclosure({title:"Details",content:"<p>Source evidence</p>",open:true});
+if(!folded.includes('<details class="rhiUxAssetDisclosure">') || !folded.includes("<summary>Details</summary>") || !folded.includes("Source evidence")) throw new Error("default closed details must retain meaningful summary and content");
+if(!opened.includes('<details class="rhiUxAssetDisclosure" open>')) throw new Error("explicit disclosure expansion lost");
+if(context.rhiUxQuickActionBar({actions:[]})!=="" || context.rhiUxQuickActionBar({actions:[{label:"Hidden",visible:false}]})!=="") throw new Error("empty action bars must not render chrome");
+const compactPage=context.rhiUxPageTemplate({status:"<span>status</span>",actions:"<button>action</button>",content:"<details>detail</details>"});
+if(compactPage.includes("rhiUxPageHero") || compactPage.indexOf("<span>status</span>")>=compactPage.indexOf("<button>action</button>") || compactPage.indexOf("<button>action</button>")>=compactPage.indexOf("<details>detail</details>")) throw new Error("compact page must preserve status/action/details without mandatory hero");
+console.log("PASS compact default disclosure, optional chrome and action-first composition");

@@ -13,7 +13,7 @@
 - Generated projections:
 
 ### Acceptance
-<!-- Observable end-to-end acceptance criteria. -->
+<!-- Observable end-to-end acceptance criteria. For UX changes apply docs/ZERO_DEBT_FRONTEND_STANDARD.md#ux-hierarchy--household-first-compact-and-actionable: exact AS-IS reference and reuse; compact information/navigation structure; first useful action, clicks/scroll, inline edits, default-closed details, responsive and authorized readback evidence; state unexecuted field proof as HOLD. No separate checklist. -->
 
 ### Preflight before push
 - [ ] Source/build inputs complete
