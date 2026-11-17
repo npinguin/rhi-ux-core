@@ -16,6 +16,8 @@ Do not reference `/hacsfiles/rhi-ux-core/...` at runtime.
 
 ## Adoption sequence
 
+Read the [normative household-first UX and anti-drift rules](ZERO_DEBT_FRONTEND_STANDARD.md#ux-hierarchy--household-first-compact-and-actionable) first. Reuse the working Basic/Premium user journey; do not introduce another navigation or information hierarchy.
+
 1. Map local tokens to the `--rhi-*` vocabulary.
 2. Replace shared hero/status/empty/footer markup with Core primitives.
 3. Remove superseded local CSS immediately.

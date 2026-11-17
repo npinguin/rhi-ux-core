@@ -20,6 +20,10 @@ RHI UX Core primitives + tokens
 
 Consumers bundle the selected RHI UX Core version into their own immutable UX artifact. There is no Home Assistant runtime dependency on a separate Core resource.
 
+## Normative UX standard
+
+The [shared frontend standard](docs/ZERO_DEBT_FRONTEND_STANDARD.md#ux-hierarchy--household-first-compact-and-actionable) is the authority for household-first navigation, information structure, compactness, actions and progressive disclosure across Home, Core, Basic and Premium. Read it before any UX change; preserve proven Basic/Premium user journeys and record anti-drift evidence in the existing PR and qualification record.
+
 ## v1 scope
 
 - canonical Robotix.be company branding and logo asset
