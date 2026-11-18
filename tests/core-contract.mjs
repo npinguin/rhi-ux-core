@@ -175,3 +175,10 @@ for(const id of ["perspectives","view-navigation","household-summary","domain-ro
 const referenceDomains=["security","comfort","climate","energy","mobility","wellness","multimedia","appliances","infrastructure"];
 let previous=-1;for(const domain of referenceDomains){const next=uxReference.indexOf('id="domain-'+domain+'"');if(next<=previous)throw new Error("reference domain row order/identity drift: "+domain);previous=next;}
 console.log("PASS retained household composition reference (design evidence only)");
+
+const compact=context.rhiUxDomainShell({domain:"Notifications",compact:true,modules:[{id:"one",label:"Notifications",items:[{id:"overview",label:"Overview",target:"overview"},{id:"settings",label:"Settings",target:"settings"}]}],activeItem:"overview"});
+if(!compact.includes("rhiUxCompactDomainShell")||compact.includes("rhiUxModuleTab")||!compact.includes('data-nav="settings"'))throw Error("compact perspective header drift");
+const domain=context.rhiUxAssetDisclosure({title:"Security",icon:context.rhiUxDomainIcon("security"),subtitle:"Access",value:"1 active",severity:"warning",content:"Asset detail"});
+if(!domain.includes('icon="mdi:shield-home-outline"')||!domain.includes("rhiUxDomainDisclosureIdentity")||!domain.includes('data-severity="warning"')||!domain.includes("1 active")||domain.includes("<details open"))throw Error("compact domain row drift");
+if(context.rhiUxDomainIcon("unknown")!=="mdi:shape-outline")throw Error("unknown domain must not acquire an invented category");
+console.log("PASS compact six-screen presentation grammar");
