@@ -1,6 +1,6 @@
-// RHI UX Core 1.6.5 — build-time presentation primitives only.
+// RHI UX Core 1.6.6 — build-time presentation primitives only.
 // No domain semantics or Home Assistant contract/entity knowledge belongs here.
-const RHI_UX_CORE_VERSION = "1.6.5";
+const RHI_UX_CORE_VERSION = "1.6.6";
 const RHI_UX_COMPANY_LOGO_SVG = "__RHI_UX_COMPANY_LOGO_INLINE__";
 
 function rhiUxEscape(value) {
@@ -84,7 +84,7 @@ function rhiUxCompanyBrand({ ariaLabel = "Robotix.be — DomotiX · Network · S
   return `<span class="rhiUxCompanyLogo" role="img" aria-label="${rhiUxEscape(ariaLabel)}">${RHI_UX_COMPANY_LOGO_SVG}</span>`;
 }
 
-function rhiUxDomainShell({ product = "Home Intelligence", domain = "", modules = [], activeModule = "", activeItem = "", brandHtml = rhiUxCompanyBrand() } = {}) {
+function rhiUxDomainShell({ product = "Home Intelligence", domain = "", modules = [], activeModule = "", activeItem = "", compact = false, brandHtml = rhiUxCompanyBrand() } = {}) {
   const selected = modules.find(row => String(row.id || "") === String(activeModule || "")) || modules[0] || { items:[] };
   const moduleButtons = modules.map(row => {
     const active = String(row.id || "") === String(selected.id || "");
@@ -94,6 +94,7 @@ function rhiUxDomainShell({ product = "Home Intelligence", domain = "", modules 
     const active = String(row.id || "") === String(activeItem || "");
     return `<button type="button" class="rhiUxDomainTab${active ? " active" : ""}" data-rhi-item="${rhiUxEscape(row.id || "")}"${row.target ? ` data-nav="${rhiUxEscape(row.target)}"` : ""}><span>${rhiUxEscape(row.label || row.id || "")}</span></button>`;
   }).join("");
+  if (compact) return `<header class="rhiUxCompactDomainShell"><div class="rhiUxCompactIdentity"><strong>${rhiUxEscape(domain)}</strong></div><nav class="rhiUxCompactDomainTabs" aria-label="${rhiUxEscape(domain)}">${itemButtons}</nav>${brandHtml ? `<div class="rhiUxCompanyBrand">${brandHtml}</div>` : ""}</header>`;
   return `<header class="rhiUxDomainShell"><div class="rhiUxProductArea"><div class="rhiUxDomainShellTop"><div class="rhiUxDomainIdentity"><span>${rhiUxEscape(product)}</span><strong>${rhiUxEscape(domain)}</strong></div><nav class="rhiUxModuleTabs" aria-label="Modules">${moduleButtons}</nav></div><div class="rhiUxDomainShellBottom"><nav class="rhiUxDomainTabs" aria-label="${rhiUxEscape(selected.label || domain || "Domain")} navigation">${itemButtons}</nav></div></div>${brandHtml ? `<div class="rhiUxCompanyBrand">${brandHtml}</div>` : ""}</header>`;
 }
 
@@ -172,7 +173,12 @@ function rhiUxAssetRelationship({ label = "", value = "", detail = "", target = 
   return `<div class="rhiUxAssetRelationship"><div><small>${rhiUxEscape(label)}</small><b>${rhiUxEscape(rhiUxDisplay(value))}</b>${detail ? `<span>${rhiUxEscape(detail)}</span>` : ""}</div>${target ? `<button type="button" data-nav="${rhiUxEscape(target)}">Open</button>` : ""}</div>`;
 }
 
-function rhiUxAssetDisclosure({ title = "Details", summary = "", content = "", open = false } = {}) {
+function rhiUxDomainIcon(domain = "") {
+  return ({security:"mdi:shield-home-outline",comfort:"mdi:sofa-outline",climate:"mdi:thermometer",energy:"mdi:lightning-bolt-outline",mobility:"mdi:car-outline",wellness:"mdi:waves",multimedia:"mdi:television",appliances:"mdi:washing-machine",infrastructure:"mdi:lan",home:"mdi:home-outline"})[String(domain)] || "mdi:shape-outline";
+}
+
+function rhiUxAssetDisclosure({ title = "Details", summary = "", content = "", open = false, icon = "", subtitle = "", value = "", severity = "" } = {}) {
+  if (icon) return `<details class="rhiUxAssetDisclosure rhiUxDomainDisclosure"${open ? " open" : ""}><summary><ha-icon icon="${rhiUxEscape(icon)}"></ha-icon><span class="rhiUxDomainDisclosureIdentity"><strong>${rhiUxEscape(title)}</strong>${subtitle ? `<small>${rhiUxEscape(subtitle)}</small>` : ""}</span>${value !== "" ? `<span class="rhiUxDomainDisclosureValue" data-severity="${rhiUxEscape(severity)}">${rhiUxEscape(value)}</span>` : ""}<ha-icon class="rhiUxDomainDisclosureChevron" icon="mdi:chevron-right"></ha-icon></summary><div>${content}</div></details>`;
   const detail = summary === undefined || summary === null || summary === "" ? "" : ` · ${rhiUxEscape(summary)}`;
   return `<details class="rhiUxAssetDisclosure"${open ? " open" : ""}><summary>${rhiUxEscape(title)}${detail}</summary><div>${content}</div></details>`;
 }

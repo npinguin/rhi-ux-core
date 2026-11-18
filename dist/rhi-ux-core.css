@@ -1,4 +1,4 @@
-/* RHI UX Core 1.6.5 */
+/* RHI UX Core 1.6.6 */
 :host,.rhi-ux-root{
   --rhi-color-primary:#1467F5;
   --rhi-color-primary-soft:#EAF3FF;
@@ -308,3 +308,22 @@
 .rhiUxChartViewport svg,.rhiUxChartViewport canvas{display:block;max-width:100%}
 .rhiUxChartEmpty{padding:20px 12px;text-align:center;color:var(--rhi-color-muted);font-size:var(--rhi-font-small)}
 @media(max-width:760px){.rhiUxChartPanel{padding:9px}.rhiUxChartHeader{align-items:flex-start}}
+
+/* Compact household perspective: opt-in, preserves existing Premium shell and asset disclosures. */
+.rhiUxCompactDomainShell{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 12px;border-bottom:1px solid var(--rhi-color-line);background:var(--rhi-color-surface)}
+.rhiUxCompactIdentity{flex:1;min-width:0;font-size:20px;font-weight:var(--rhi-weight-strong)}
+.rhiUxCompactDomainTabs{display:flex;flex-wrap:wrap;gap:4px;background:var(--rhi-color-surface-soft);border-radius:8px;padding:3px}
+.rhiUxCompactDomainTabs .rhiUxDomainTab{min-height:36px;padding:6px 11px;white-space:normal}
+.rhiUxCompactDomainShell .rhiUxCompanyBrand{width:76px;min-width:0;padding:0;border:0}
+.rhiUxDomainDisclosure{padding:0;border:1px solid var(--rhi-color-line);border-radius:8px;background:var(--rhi-color-surface);overflow:hidden}
+.rhiUxDomainDisclosure>summary{display:flex;align-items:center;gap:10px;list-style:none;min-height:60px;padding:10px 12px;box-sizing:border-box;color:var(--rhi-color-text)}
+.rhiUxDomainDisclosure>summary::-webkit-details-marker{display:none}
+.rhiUxDomainDisclosure>summary>ha-icon{color:var(--rhi-color-muted);flex:0 0 24px;--mdc-icon-size:24px}
+.rhiUxDomainDisclosureIdentity{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px;overflow-wrap:anywhere}
+.rhiUxDomainDisclosureIdentity>strong{font-size:14px;font-weight:var(--rhi-weight-strong)}
+.rhiUxDomainDisclosureIdentity>small{font-size:12px;color:var(--rhi-color-muted);font-weight:normal}
+.rhiUxDomainDisclosureValue{text-align:right;max-width:34%;font-size:12px;font-weight:var(--rhi-weight-strong);overflow-wrap:anywhere}
+.rhiUxDomainDisclosureValue[data-severity="warning"]{color:#986100}.rhiUxDomainDisclosureValue[data-severity="error"]{color:var(--rhi-color-error)}
+.rhiUxDomainDisclosure[open]>summary{background:var(--rhi-color-primary-soft)}.rhiUxDomainDisclosure[open]>summary>.rhiUxDomainDisclosureChevron{transform:rotate(90deg)}
+.rhiUxDomainDisclosure>div{padding:12px;border-top:1px solid var(--rhi-color-line);background:var(--rhi-color-surface-soft)}
+@media(max-width:520px){.rhiUxCompactDomainShell{gap:6px;padding:8px}.rhiUxCompactDomainShell .rhiUxCompanyBrand{display:none}.rhiUxDomainDisclosure>summary{gap:7px;padding:9px}.rhiUxDomainDisclosure>div{padding:8px}}
