@@ -42,3 +42,19 @@ Rules:
 - Consumers never hardcode another domain's dashboard path or query grammar.
 - Registration is optional; absence means no cross-domain navigation action is rendered.
 - Templates are same-origin relative paths and must contain `{asset_id}`.
+
+## Shared shell and Hero conformance (central authority)
+
+The existing `rhiUxDomainShell`, `rhiUxPageHero`, navigation, typography and responsive layout are **one shared component family**, not merely a set of reusable class names. The canonical CSS in `src/primitives.css` owns header, Hero and navigation dimensions; `src/visual-spec.json.shared_layout` records the tested breakpoints and protected selectors. The visual-library `hero_scene` master is 2400 × 800 (3:1), with a left-side copy-safe area and an explicit focal point. The domain supplies its own properly licensed, local, responsive artwork and EN/NL/FR copy. The image must be decorative and must never imply data or status.
+
+A domain **must not redefine** any `shared_layout.protected_consumer_selectors` selector, even under its own `.planning-card` or `.notify-standalone` namespace or a media query. Domain CSS may style its own lists, cards and specialized states, not override shared Hero heights, title font, copy widths, background fade, shared shell/header or navigation. Change shared geometry here first, then pin/adopt the validated version in existing domain PRs. Embedded cards must not render standalone header/Hero chrome.
+
+Validate the actual *authored* CSS in normal product source checks, not the vendored Core CSS:
+
+```sh
+node tools/check-consumer-style.mjs path/to/domain.css
+node tools/check-consumer-style.mjs frontend/planning-card.js PLAN_CSS
+node tools/check-consumer-style.mjs frontend/notifications-card.js NOTIFY_CSS
+```
+
+The tool is build-time only and reads a static JSON-escaped CSS constant without executing product JS; existing consumers can vendor the single pinned check tool as needed. A source pass does not replace final HA/Chromium screenshots at 390×844, 1024×768 and 1600×900 or a proven first safe action. Audit existing module overrides before pinning; do not hide them by changing the shared stylesheet locally.

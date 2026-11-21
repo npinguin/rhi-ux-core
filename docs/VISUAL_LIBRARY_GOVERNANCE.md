@@ -36,6 +36,14 @@ Consumers may bundle a pinned Core version at build time. Artwork remains packag
 
 Core must never contain domain-specific brands, models, SKUs, asset types or product binaries.
 
+## Canonical Hero design language — one product family
+
+The approved shared UX must feel like one household-facing product family even when every module owns different imagery. For a standalone Hero, use one restrained editorial photograph or photorealistic home scene with warm-neutral natural lighting, consistent professional interior/architecture cues, a quiet **left** copy-safe field and a relevant subject on the **right**. The image supports the activity or concern of that page; it never claims a real source, location, installed device, resident identity, schedule or notification. Use live localized text and Core UI overlay, not dashboard widgets, labels, icons, logos, schedules, statuses or buttons baked into picture pixels. Avoid unrelated generic vector illustrations when the approved family uses photographic treatment.
+
+**Shared geometry is not optional:** render via pinned `rhiUxPageHero` and `rhiUxDomainShell`, and use `src/primitives.css` without module-local restyling of the protected shared selectors. The existing `src/visual-spec.json.shared_layout` and build-time consumer-style audit keep the same header, navigation, title, copy, fade, aspect/crop and responsive dimensions across modules. The existing locally qualified Notifications photographic Hero is a useful visual comparison, **not** another product's runtime dependency, a source of licensed imagery, or an approved pixel baseline for all domains. Domain-local artwork and per-tab text remain separate, legitimate product inputs.
+
+For a multi-tab product, different scenes may express Overview, Upcoming, Other and Settings while retaining common household architecture, photography, palette and crop. One main Hero per standalone primary tab is a design decision justified by user journeys; compact embedded Core cards must avoid their own Hero or duplicate product navigation. Review all three target widths, long EN/NL/FR strings, image load/fallback, copy contrast, first action and empty/attention states; source tests and generated concept composites alone do not certify UX. Do not replace previously approved modules until the new candidate is visually qualified through its own PR.
+
 ## Visual families
 
 Every domain visual belongs to exactly one family.

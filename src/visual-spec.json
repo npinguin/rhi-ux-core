@@ -85,5 +85,47 @@
     "core_must_not_own_domain_products": true,
     "verified_product_must_not_use_generic_artwork": true,
     "manifest_is_domain_source_of_truth": true
+  },
+  "shared_layout": {
+    "authority": "rhi-ux-core/src/primitives.css",
+    "intent": "one shared standalone shell and photographic hero grammar; content and imagery remain domain-owned",
+    "hero_class": "hero_scene",
+    "hero_heights_px": {
+      "desktop": 146,
+      "desktop_compact": 140,
+      "tablet": 128,
+      "phone": 118
+    },
+    "hero_breakpoints_max_px": {
+      "desktop_compact": 1180,
+      "tablet": 760,
+      "phone": 430
+    },
+    "hero_title": "rhi-ux-core tokens and responsive primitives",
+    "hero_image_fit": "cover",
+    "hero_image_layer": "background",
+    "hero_copy_safe_side": "left",
+    "protected_consumer_selectors": [
+      "rhiUxDomainShell",
+      "rhiUxDomainShellTop",
+      "rhiUxDomainShellBottom",
+      "rhiUxDomainIdentity",
+      "rhiUxModuleTabs",
+      "rhiUxModuleTab",
+      "rhiUxDomainTabs",
+      "rhiUxDomainTab",
+      "rhiUxCompanyBrand",
+      "rhiUxPageHero",
+      "rhiUxPageHeroCopy",
+      "rhiUxPageHeroArt"
+    ],
+    "visual_language": {
+      "composition": "single restrained photographic or photorealistic home-context image with primary subject on the right and quiet copy-safe left",
+      "continuity": "shared warm neutral, natural light and professional architecture/material palette across independent modules",
+      "content": "one distinct relevant resident-use context per standalone view; no generic illustration, fake metrics, controls or technical dashboards baked into imagery",
+      "copy": "live localized HTML text through the shared Hero primitive; do not embed words or logos in the image",
+      "provenance": "domain-local licensed master with focal/copy-safe metadata; exact final asset must be approved and rendered in HA",
+      "embedded": "no standalone Hero, brand or redundant navigation"
+    }
   }
 }
