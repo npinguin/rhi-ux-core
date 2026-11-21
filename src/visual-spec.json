@@ -118,6 +118,14 @@
       "rhiUxPageHero",
       "rhiUxPageHeroCopy",
       "rhiUxPageHeroArt"
-    ]
+    ],
+    "visual_language": {
+      "composition": "single restrained photographic or photorealistic home-context image with primary subject on the right and quiet copy-safe left",
+      "continuity": "shared warm neutral, natural light and professional architecture/material palette across independent modules",
+      "content": "one distinct relevant resident-use context per standalone view; no generic illustration, fake metrics, controls or technical dashboards baked into imagery",
+      "copy": "live localized HTML text through the shared Hero primitive; do not embed words or logos in the image",
+      "provenance": "domain-local licensed master with focal/copy-safe metadata; exact final asset must be approved and rendered in HA",
+      "embedded": "no standalone Hero, brand or redundant navigation"
+    }
   }
 }

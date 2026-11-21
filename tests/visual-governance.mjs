@@ -97,3 +97,11 @@ for (const bad of [
   ".finance-card .rhiUxDomainTab.active{color:red}"
 ]) if (sharedStyleOverrides(bad).length === 0) throw new Error("Missing consumer CSS drift detection: "+bad);
 console.log("PASS central shell/Hero layout specification and consumer override detector");
+
+
+const visualLanguage=shared.visual_language;
+for (const key of ["composition","continuity","content","copy","provenance","embedded"]) {
+  if (typeof visualLanguage?.[key]!=="string" || !visualLanguage[key]) throw new Error("Shared Hero visual-language requirement missing: "+key);
+}
+if (!visualLanguage.copy.includes("localized HTML") || !visualLanguage.embedded.includes("no standalone Hero")) throw new Error("Shared Hero/embedded composition drift");
+console.log("PASS shared editorial Hero family is centrally defined, without domain image ownership");
