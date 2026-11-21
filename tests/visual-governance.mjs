@@ -68,3 +68,32 @@ for (const forbidden of [
 }
 
 console.log("PASS shared visual-library governance contract");
+
+
+import { sharedStyleOverrides, readConsumerCss } from "../tools/check-consumer-style.mjs";
+import assert from "node:assert/strict";
+
+const shared = spec.shared_layout;
+if (shared.authority !== "rhi-ux-core/src/primitives.css" || shared.hero_class !== "hero_scene"
+    || shared.hero_image_layer !== "background" || shared.hero_image_fit !== "cover"
+    || shared.hero_copy_safe_side !== "left") throw new Error("shared shell/Hero authority drifted");
+assert.deepEqual(shared.hero_heights_px,{desktop:146,desktop_compact:140,tablet:128,phone:118});
+assert.deepEqual(shared.hero_breakpoints_max_px,{desktop_compact:1180,tablet:760,phone:430});
+const coreCss = fs.readFileSync("src/primitives.css","utf8");
+for (const size of ["height:146px;min-height:146px","height:140px;min-height:140px",
+                    "height:128px;min-height:128px","height:118px;min-height:118px"]) {
+  if (!coreCss.includes(size)) throw new Error("Canonical Hero geometry drifted: "+size);
+}
+for (const name of ["rhiUxPageHero","rhiUxPageHeroCopy","rhiUxPageHeroArt",
+                    "rhiUxDomainShell","rhiUxDomainTab","rhiUxModuleTab"]) {
+  if (!shared.protected_consumer_selectors.includes(name)) throw new Error("Missing protected shared selector: "+name);
+}
+assert.deepEqual(sharedStyleOverrides(".domain-own-card{display:grid}.domain-kpis{gap:8px}"),[]);
+assert.deepEqual(sharedStyleOverrides("/* .rhiUxPageHero{height:10px} */ .domain-card{color:blue}"),[]);
+for (const bad of [
+  ".planning-card .rhiUxPageHero{height:126px}",
+  "@media(max-width:520px){.notify-standalone .rhiUxPageHeroCopy h2{font-size:24px}}",
+  ".rhiUxDomainShell,.module-card{padding:0}",
+  ".finance-card .rhiUxDomainTab.active{color:red}"
+]) if (sharedStyleOverrides(bad).length === 0) throw new Error("Missing consumer CSS drift detection: "+bad);
+console.log("PASS central shell/Hero layout specification and consumer override detector");

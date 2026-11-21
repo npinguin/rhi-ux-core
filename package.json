@@ -8,7 +8,8 @@
     "src",
     "dist",
     "docs",
-    "assets"
+    "assets",
+    "tools/check-consumer-style.mjs"
   ],
   "scripts": {
     "clean": "node tools/clean.mjs",
