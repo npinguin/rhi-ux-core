@@ -1,6 +1,6 @@
-// RHI UX Core 1.6.6 — build-time presentation primitives only.
+// RHI UX Core 1.6.7 — build-time presentation primitives only.
 // No domain semantics or Home Assistant contract/entity knowledge belongs here.
-const RHI_UX_CORE_VERSION = "1.6.6";
+const RHI_UX_CORE_VERSION = "1.6.7";
 const RHI_UX_COMPANY_LOGO_SVG = "__RHI_UX_COMPANY_LOGO_INLINE__";
 
 function rhiUxEscape(value) {
