@@ -182,3 +182,15 @@ const domain=context.rhiUxAssetDisclosure({title:"Security",icon:context.rhiUxDo
 if(!domain.includes('icon="mdi:shield-home-outline"')||!domain.includes("rhiUxDomainDisclosureIdentity")||!domain.includes('data-severity="warning"')||!domain.includes("1 active")||domain.includes("<details open"))throw Error("compact domain row drift");
 if(context.rhiUxDomainIcon("unknown")!=="mdi:shape-outline")throw Error("unknown domain must not acquire an invented category");
 console.log("PASS compact six-screen presentation grammar");
+
+// One-module standalone products (e.g. Notifications) must not show a redundant
+// module navigation row above their normal perspective tabs.
+if (!css.includes(".rhiUxModuleTabs:has(>.rhiUxModuleTab:only-child){display:none}")) {
+  throw new Error("Single-module shell must hide duplicate module navigation");
+}
+if (!css.includes(".rhiUxDomainShellTop:has(>.rhiUxModuleTabs>.rhiUxModuleTab:only-child){grid-template-columns:minmax(0,1fr)}")) {
+  throw new Error("Single-module shell must reclaim empty navigation space");
+}
+const multiModuleShell = context.rhiUxDomainShell({domain:"TEST",modules:[{id:"one",label:"One",items:[{id:"a",label:"A"}]},{id:"two",label:"Two",items:[{id:"b",label:"B"}]}],activeModule:"one",activeItem:"a"});
+if ((multiModuleShell.match(/class="rhiUxModuleTab/g) || []).length !== 2) throw new Error("Multiple real modules must retain navigation");
+console.log("PASS canonical single-module no-duplicate shell + multi-module navigation");
