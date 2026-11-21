@@ -199,5 +199,5 @@ if (!css.includes(".rhiUxDomainShellTop:has(>.rhiUxModuleTabs>.rhiUxModuleTab:on
   throw new Error("Single-module shell must reclaim empty navigation space");
 }
 const multiModuleShell = context.rhiUxDomainShell({domain:"TEST",modules:[{id:"one",label:"One",items:[{id:"a",label:"A"}]},{id:"two",label:"Two",items:[{id:"b",label:"B"}]}],activeModule:"one",activeItem:"a"});
-if ((multiModuleShell.match(/class="rhiUxModuleTab/g) || []).length !== 2) throw new Error("Multiple real modules must retain navigation");
+if ((multiModuleShell.match(/class="rhiUxModuleTab(?: active)?"/g) || []).length !== 2) throw new Error("Multiple real modules must retain navigation");
 console.log("PASS canonical single-module no-duplicate shell + multi-module navigation");
