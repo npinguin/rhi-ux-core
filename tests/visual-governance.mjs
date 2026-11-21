@@ -96,6 +96,38 @@ for (const bad of [
   ".rhiUxDomainShell,.module-card{padding:0}",
   ".finance-card .rhiUxDomainTab.active{color:red}"
 ]) if (sharedStyleOverrides(bad).length === 0) throw new Error("Missing consumer CSS drift detection: "+bad);
+
+// Real consumers may use class attribute selectors instead of a literal
+// .rhiUxPageHero selector. Those must not evade the same ownership rule.
+for (const bad of [
+  '.planning-card [class~="rhiUxPageHero"]{height:108px}',
+  '@media(max-width:430px){[class*="rhiUxPageHeroCopy"] h2{font-size:19px}}',
+  '.notify-standalone [class="rhiUxDomainTab active"]{padding:0}'
+]) {
+  if (sharedStyleOverrides(bad).length === 0) throw new Error("Shared-style attribute selector bypass: "+bad);
+}
+assert.deepEqual(sharedStyleOverrides('.domain-own-card[class="own-card"]{gap:8px}'),[]);
+assert.deepEqual(sharedStyleOverrides('/* [class~="rhiUxPageHero"]{height:9px} */ .domain-own-card{gap:8px}'),[]);
+
+// The public tool must accept actual static JSON-escaped CSS from a product
+// source file without evaluating its JavaScript.
+import os from "node:os";
+import path from "node:path";
+const consumerFixtureDir = fs.mkdtempSync(path.join(os.tmpdir(), "rhi-ux-core-style-"));
+try {
+  const consumerFile = path.join(consumerFixtureDir, "consumer.js");
+  const safe = ".domain-own-card{display:grid}";
+  fs.writeFileSync(consumerFile, `const PLAN_CSS=${JSON.stringify(safe)};\n`);
+  assert.equal(readConsumerCss(consumerFile, "PLAN_CSS"), safe);
+  fs.writeFileSync(consumerFile, 'const PLAN_CSS=".planning-card .rhiUxPageHero{height:110px}";\n');
+  assert.equal(sharedStyleOverrides(readConsumerCss(consumerFile,"PLAN_CSS")).length, 1);
+  fs.writeFileSync(consumerFile, 'const PLAN_CSS=makeCss();\n');
+  assert.throws(()=>readConsumerCss(consumerFile,"PLAN_CSS"), /Static CSS constant not found/);
+} finally {
+  fs.rmSync(consumerFixtureDir,{recursive:true,force:true});
+}
+console.log("PASS CSS attribute-selector and actual consumer-source audit regressions");
+
 console.log("PASS central shell/Hero layout specification and consumer override detector");
 
 
