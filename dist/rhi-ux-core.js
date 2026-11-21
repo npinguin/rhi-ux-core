@@ -65,8 +65,13 @@ function rhiUxStatusGrid(items = []) {
   return `<section class="rhiUxStatusGrid">${items.map(rhiUxStatusItem).join("")}</section>`;
 }
 
-function rhiUxPageHero({ eyebrow = "", title = "", description = "", image = "", imageAlt = "" } = {}) {
-  return `<section class="rhiUxPageHero"><div class="rhiUxPageHeroCopy">${eyebrow ? `<small>${rhiUxEscape(eyebrow)}</small>` : ""}<h2>${rhiUxEscape(title)}</h2>${description ? `<p>${rhiUxEscape(description)}</p>` : ""}</div>${image ? `<div class="rhiUxPageHeroArt"><img src="${rhiUxEscape(image)}" alt="${rhiUxEscape(imageAlt)}"></div>` : ""}</section>`;
+function rhiUxPageHero({ eyebrow = "", title = "", description = "", image = "", imageAlt = "", imageFocal = null } = {}) {
+  // The owning domain may provide the photographed scene's factual focal point;
+  // Core alone owns the rendered crop, overlay and responsive Hero geometry.
+  const point = imageFocal && Number.isFinite(imageFocal.x) && Number.isFinite(imageFocal.y)
+    ? ` style="object-position:${Math.max(0, Math.min(100, imageFocal.x))}% ${Math.max(0, Math.min(100, imageFocal.y))}%"`
+    : "";
+  return `<section class="rhiUxPageHero"><div class="rhiUxPageHeroCopy">${eyebrow ? `<small>${rhiUxEscape(eyebrow)}</small>` : ""}<h2>${rhiUxEscape(title)}</h2>${description ? `<p>${rhiUxEscape(description)}</p>` : ""}</div>${image ? `<div class="rhiUxPageHeroArt"><img src="${rhiUxEscape(image)}" alt="${rhiUxEscape(imageAlt)}"${point}></div>` : ""}</section>`;
 }
 
 function rhiUxState({ state = "unavailable", title = "Unavailable", detail = "" } = {}) {
