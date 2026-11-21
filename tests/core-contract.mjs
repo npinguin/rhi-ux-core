@@ -41,6 +41,13 @@ if(!css.includes(".rhiUxQuickAction.primary")) throw new Error("canonical quick-
 if(!css.includes(".rhiUxDomainBody")) throw new Error("canonical body grammar missing");
 const actions=context.rhiUxQuickActionBar({actions:[{label:"Overview",target:"/overview"},{label:"Details",target:"/details"}]});
 if(!actions.includes("rhiUxQuickAction primary") || !actions.includes('data-nav="/overview"')) throw new Error("canonical quick action bar failed");
+const focalHero=context.rhiUxPageHero({title:"Verified room",image:"/local/room.webp",imageFocal:{x:85,y:40}});
+if(!focalHero.includes('style="object-position:85% 40%"')) throw new Error("domain focal metadata must use Core-owned Hero");
+const clampedFocal=context.rhiUxPageHero({title:"Room",image:"/room.webp",imageFocal:{x:-20,y:120}});
+if(!clampedFocal.includes('style="object-position:0% 100%"')) throw new Error("Hero focal metadata must be bounded");
+const rejectedFocal=context.rhiUxPageHero({title:"Room",image:"/room.webp",imageFocal:{x:"0;filter:evil",y:40}});
+if(rejectedFocal.includes("object-position:") || rejectedFocal.includes("filter:")) throw new Error("Unverified Hero focal text must be ignored");
+console.log("PASS domain-owned focal metadata through shared Hero with bounded values");
 console.log("PASS unified hero/status/actions/body contract");
 
 const accessActions=context.rhiUxQuickActionBar({actions:[
