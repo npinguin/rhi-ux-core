@@ -4,7 +4,7 @@
   "version": "1.6.7",
   "runtime_dependency": false,
   "artifacts": {
-    "rhi-ux-core.js": "733d53413b4458010f4f5e3b3fc252d08f684e62417703899ec9a5056d10f55e",
+    "rhi-ux-core.js": "6de9e30ff1bf3d9b45d4f3472e3873a8506952e7c516f0b2b64aabaa77c23531",
     "rhi-ux-core.css": "4f2a90bae495d2cc31f058b4472f7f416c8cab772e4106e246775f7e146f18a3",
     "assets/branding/company-logo.svg": "264f0d86798a2a53e30b8beb5cae366e4b0916adbb3716b3deb23b5ddbed053d"
   }
