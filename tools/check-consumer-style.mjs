@@ -25,10 +25,20 @@ export function sharedStyleOverrides(css) {
     if (char === "{") {
       const selector = source.slice(start, i).trim();
       if (selector && !selector.startsWith("@")) {
+        const offending = new Set();
         for (const match of selector.matchAll(/\.([A-Za-z][\w-]*)/g)) {
-          if (protectedClasses.has(match[1])) {
-            violations.push({selector: selector.slice(0, 160), sharedClass: match[1]});
+          if (protectedClasses.has(match[1])) offending.add(match[1]);
+        }
+        // CSS attribute selectors can restyle the same shared class without
+        // spelling `.rhiUxPageHero`. Do not let that evade the build-time gate.
+        for (const match of selector.matchAll(/\[\s*class\s*[~|^$*]?=\s*(?:"([^"]*)"|'([^']*)'|([^\]\s]+))(?:\s+[is])?\s*\]/gi)) {
+          const value = match[1] ?? match[2] ?? match[3];
+          for (const name of protectedClasses) {
+            if (value.includes(name)) offending.add(name);
           }
+        }
+        for (const sharedClass of offending) {
+          violations.push({selector: selector.slice(0, 160), sharedClass});
         }
       }
     }
