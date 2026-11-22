@@ -103,7 +103,7 @@ This structural reference reconstructs the owner-supplied 17 November chat mock.
 
 ### Shared component geometry is centrally owned
 
-Canonical standalone page header, navigation, Hero image/copy layers, sizes, breakpoints and typographic scale are defined by RHI UX Core's existing `rhiUxDomainShell` / `rhiUxPageHero` and stylesheet. A consumer must not override shared shell/Hero selectors to create a local house style. The existing visual spec defines a 2400 × 800 (3:1) Hero master, copy-safe area and focal metadata; a domain owns its image and words, not shared geometry. The existing UX Core consumer-style audit must be used in product source CI to reject duplicate CSS ownership before runtime/browser qualification. Preserve existing approved product UI until its own PR explicitly migrates and qualifies the new pinned Core baseline; avoid forced lockstep releases.
+Canonical standalone page header, navigation, Hero image/copy layers, sizes, breakpoints and typographic scale are defined by RHI UX Core's existing `rhiUxDomainShell` / `rhiUxPageHero` and stylesheet. A consumer must not override shared shell/Hero selectors to create a local house style. The existing visual spec defines a 2172 × 724 (3:1) Hero master, copy-safe area and focal metadata; a domain owns its image and words, not shared geometry. The existing UX Core consumer-style audit must be used in product source CI to reject duplicate CSS ownership before runtime/browser qualification. Preserve existing approved product UI until its own PR explicitly migrates and qualifies the new pinned Core baseline; avoid forced lockstep releases.
 
 ### UX anti-drift evidence
 

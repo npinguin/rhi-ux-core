@@ -8,7 +8,7 @@ if (spec.runtime_dependency !== false) throw new Error("visual spec must remain 
 if (spec.package_ownership !== "domain-local") throw new Error("visual artwork ownership must remain domain-local");
 
 const expectedClasses = {
-  hero_scene: [2400, 800, false],
+  hero_scene: [2172, 724, false],
   product_wide: [1600, 950, true],
   product_square: [1400, 1400, true],
   product_landscape: [1600, 1200, true]
